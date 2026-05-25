@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Supply Chain Roadmap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0d1420;--surface:#111c2d;--surface2:#162032;--surface3:#0f1828;
+  --border:rgba(255,255,255,0.08);--border-h:rgba(255,255,255,0.16);
+  --text:#f5f5f5;--muted:#8892a4;
+  --amber:#d97706;--amber-l:#f59e0b;--blue:#3b82f6;
+  --radius:12px;--rsm:7px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+
+/* BANNER */
+.banner{position:relative;width:100%;min-height:270px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--border)}
+.banner-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1400&q=80');background-size:cover;background-position:center 40%;filter:brightness(0.25) saturate(0.6)}
+.banner-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,20,32,.5) 0%,rgba(13,20,32,.75) 60%,rgba(13,20,32,.97) 100%)}
+.banner-content{position:relative;z-index:2;text-align:center;padding:3.2rem 1.5rem 2.8rem;max-width:680px;width:100%}
+.site-title{font-size:clamp(1.9rem,5vw,3.1rem);font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.15;margin-bottom:.6rem}
+.site-subtitle{font-size:.98rem;color:rgba(245,245,245,.7);font-weight:400;margin-bottom:1.25rem;max-width:460px;margin-left:auto;margin-right:auto}
+.crafted-by{font-size:.8rem;color:rgba(255,255,255,.48);margin-bottom:1rem}
+.crafted-by a{color:var(--amber-l);text-decoration:none;font-weight:500}
+.crafted-by a:hover{text-decoration:underline}
+.badge-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.badge-row img{height:20px;border-radius:4px}
+.badge-row span{font-size:.78rem;color:rgba(255,255,255,.42);display:flex;align-items:center;gap:4px}
+
+/* TAGLINE BAR */
+.tagline-bar{background:var(--surface3);border-bottom:1px solid var(--border);text-align:center;padding:.6rem 1rem;font-size:.8rem;color:var(--muted)}
+
+/* SEARCH */
+.search-wrap{max-width:720px;margin:0 auto;padding:1.3rem 1.5rem .5rem;position:sticky;top:0;z-index:50;background:linear-gradient(to bottom,var(--bg) 82%,transparent);padding-bottom:.9rem}
+.search-inner{position:relative}
+.search-inner svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted)}
+.search-inner input{width:100%;padding:.52rem .9rem .52rem 2.3rem;border-radius:var(--rsm);border:1px solid rgba(255,255,255,.18);background:#0f1424;color:#f5f5f5;font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.search-inner input:focus{border-color:var(--amber)}
+.search-inner input::placeholder{color:var(--muted)}
+.meta-line{font-size:.75rem;color:var(--muted);text-align:center;margin-top:.5rem}
+
+/* CONTAINER */
+.container{max-width:720px;margin:0 auto;padding:.7rem 1.5rem 5rem}
+
+/* SECTION CARD */
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.9rem;overflow:hidden;transition:border-color .2s}
+.section-card:hover{border-color:var(--border-h)}
+.section-header{display:flex;align-items:flex-start;gap:10px;padding:.95rem 1.2rem;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.section-card.open .section-header{border-bottom-color:var(--border)}
+.sec-num{font-size:.66rem;font-weight:700;min-width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sec-tw{flex:1;min-width:0}
+.section-title{font-size:.97rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.35}
+.section-badge{font-size:.63rem;font-weight:600;padding:2px 7px;border-radius:99px;letter-spacing:.03em}
+.sec-sub{font-size:.74rem;color:var(--muted);margin-top:3px}
+.chev{width:15px;height:15px;stroke:var(--muted);transition:transform .25s;flex-shrink:0;margin-top:3px}
+.section-card.open .chev{transform:rotate(180deg)}
+
+/* BODY */
+.sec-body{display:none}
+.section-card.open .sec-body{display:block}
+
+/* HERO IMAGE */
+.sec-img{position:relative;overflow:hidden;height:180px;background:var(--surface2)}
+.sec-img img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.6) saturate(.75);transition:transform .5s,filter .3s}
+.section-card:hover .sec-img img{transform:scale(1.03);filter:brightness(.68) saturate(.9)}
+.img-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,20,32,.92) 0%,transparent 55%);pointer-events:none}
+.img-cap{position:absolute;bottom:8px;left:11px;font-size:.63rem;color:rgba(255,255,255,.35);letter-spacing:.04em}
+
+/* OVERVIEW */
+.sec-overview{padding:.9rem 1.2rem .6rem;border-bottom:1px solid var(--border)}
+.overview-toggle{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;user-select:none;padding:.2rem 0}
+.overview-toggle:hover{color:var(--text)}
+.overview-toggle .ov-arr{font-size:11px;transition:transform .2s}
+.overview-open .ov-arr{transform:rotate(90deg)}
+.overview-body{display:none;padding:.75rem 0 .25rem}
+.overview-open .overview-body{display:block}
+.overview-body p,.ov-p{font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:.5rem}
+.ov-h{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(245,245,245,.55);margin:.8rem 0 .3rem}
+.ov-kpi{display:flex;flex-wrap:wrap;gap:5px;margin-top:.3rem}
+.ov-kpi span{font-size:.7rem;padding:2px 9px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted)}
+
+/* TOPICS */
+.topics-list{padding:.7rem 1.2rem;display:flex;flex-direction:column;gap:3px}
+.topics-label{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:.1rem 0 .5rem;display:flex;align-items:center;gap:5px}
+
+.topic-item{border-radius:var(--rsm);border:1px solid transparent;overflow:hidden;transition:border-color .15s}
+.topic-item.active{border-color:var(--border-h);background:var(--surface3)}
+.topic-btn{display:flex;align-items:center;gap:9px;padding:8px 10px;cursor:pointer;background:transparent;width:100%;text-align:left;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:.83rem;transition:background .15s;border-radius:var(--rsm)}
+.topic-btn:hover{background:var(--surface2)}
+.t-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.t-name{flex:1;line-height:1.4}
+.t-diff{font-size:.59rem;font-weight:600;padding:2px 6px;border-radius:99px;letter-spacing:.04em;flex-shrink:0}
+.t-arr{font-size:10px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.topic-item.active .t-arr{transform:rotate(90deg)}
+
+/* TOPIC DETAIL */
+.topic-detail{display:none;padding:0 10px 12px 24px;border-top:1px solid var(--border)}
+.topic-item.active .topic-detail{display:block}
+
+/* markdown-like rendering */
+.td-content{padding-top:10px}
+.td-h2{font-size:.8rem;font-weight:600;color:var(--amber-l);margin:.85rem 0 .3rem;letter-spacing:.01em}
+.td-h2:first-child{margin-top:0}
+.td-p{font-size:.8rem;color:rgba(245,245,245,.78);line-height:1.65;margin-bottom:.4rem}
+.td-ul{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:.5rem}
+.td-ul li{font-size:.78rem;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.5}
+.td-ul li::before{content:'›';color:var(--amber-l);font-size:.85rem;flex-shrink:0;margin-top:.5px}
+.td-callout{background:rgba(59,130,246,.07);border-left:3px solid rgba(59,130,246,.45);padding:7px 10px;font-size:.78rem;color:rgba(245,245,245,.7);line-height:1.55;border-radius:0 5px 5px 0;margin-top:.5rem}
+.td-callout strong{color:var(--amber-l)}
+
+/* VIDEO */
+.vid-section{padding:0 1.2rem 1.2rem;border-top:1px solid var(--border);padding-top:.9rem}
+.vid-label{font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.65rem;display:flex;align-items:center;gap:5px}
+.vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.vid-grid{grid-template-columns:1fr}}
+.vid-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rsm);overflow:hidden;transition:border-color .2s}
+.vid-card:hover{border-color:rgba(59,130,246,.4)}
+.vid-card iframe{width:100%;aspect-ratio:16/9;border:none;display:block}
+.vid-t{font-size:.67rem;color:var(--muted);padding:6px 8px;line-height:1.35}
+
+/* FOOTER */
+footer{text-align:center;padding:2rem 1rem;border-top:1px solid var(--border);font-size:.79rem;color:var(--muted)}
+footer a{color:var(--amber-l);text-decoration:none}
+.no-res{text-align:center;padding:4rem 1rem;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-bg"></div>
+  <div class="banner-ov"></div>
+  <div class="banner-content">
+    <h1 class="site-title">Supply Chain Roadmap</h1>
+    <p class="site-subtitle">A structured path to master modern supply chain management</p>
+    <p class="crafted-by">
+      Crafted by Jasty Rama Krishna &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/rama-krishna-jasty-ba8742199" target="_blank">Connect</a>
+    </p>
+    <div class="badge-row">
+      <span>👁 Page Views</span>
+      <img src="https://hits.sh/euphonious-bavarois-6a3f8b.netlify.app.svg?style=flat-square&color=d97706&label=Views&labelColor=0d1420" alt="Page view counter"/>
+    </div>
+  </div>
+</div>
+
+<div class="tagline-bar">Built with ❤️ for supply chain professionals</div>
+
+<div class="search-wrap">
+  <div class="search-inner">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Search topics (e.g., demand, S&OP, ERP)..."/>
+  </div>
+  <p class="meta-line">Covers foundations → planning → systems → analytics → advanced topics &nbsp;·&nbsp; Click any subtopic for full explanation</p>
+</div>
+
+<main class="container" id="roadmapContainer"></main>
+
+<footer>
+  <a href="https://github.com/jastyramakrishna-stack/supply-chain-roadmap" target="_blank">View on GitHub</a>
+  &nbsp;·&nbsp; Built with ❤️ for supply chain professionals
+</footer>
+
+<script>
+const SECTIONS = [
+  {
+    title:"Supply Chain Foundations", badge:"Start Here",
+    sub:"Core concepts every SC professional must know",
+    color:"#d97706", cbg:"rgba(217,119,6,0.13)",
+    img:"https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=75", cap:"Global logistics network",
+    overview:{
+      what:"Supply Chain Management (SCM) coordinates all activities involved in sourcing, procurement, production, and delivery of products — from raw materials to the end customer.",
+      why:"A well-managed supply chain reduces costs, improves service levels, and creates competitive advantage. Companies like Amazon and Walmart have built entire business models around supply chain excellence.",
+      concepts:["Material flow: physical movement of goods from supplier to customer","Information flow: orders, forecasts, and tracking data","Financial flow: payments, credit terms, and invoices","Bullwhip Effect: small demand changes amplified upstream","OTIF: On Time In Full — the gold standard KPI"],
+      kpis:["Perfect Order Rate","Cash-to-Cash Cycle Time","OTIF (On Time In Full)","Inventory Turnover"]
+    },
+    topics:[
+      {name:"What is Supply Chain Management",detail:`## What is it?\nSCM coordinates the flow of goods, information, and money from raw materials to the end customer across a network of suppliers, manufacturers, and distributors.\n\n## Why it matters\nA well-run supply chain reduces costs, improves availability, and creates competitive advantage — Amazon and Walmart have built entire business models around supply chain excellence.\n\n## Key takeaway\nA great product with a poor supply chain will always lose to a good product with a great one.`},
+      {name:"Logistics & Distribution Basics",detail:`## What is it?\nLogistics covers the planning, movement, and storage of goods — inbound from suppliers, internally between sites, and outbound to customers — through a network of distribution centres and transport links.\n\n## Why it matters\nLogistics typically represents 5–15% of a product's total cost, making it one of the highest-leverage levers for both profitability and customer service.\n\n## Key takeaway\nWithout reliable logistics, every upstream plan — sourcing, production, forecasting — ultimately fails at the point of customer delivery.`},
+      {name:"Procurement & Sourcing Fundamentals",detail:`## What is it?\nProcurement is the process of buying goods and services from external suppliers; sourcing is the strategic discipline of identifying, evaluating, and selecting the right suppliers for long-term value.\n\n## Why it matters\nProcurement spend typically represents 40–80% of a company's revenue, making supplier selection and negotiation one of the most impactful financial levers in any business.\n\n## Key takeaway\nThe best procurement teams don't just negotiate the lowest price — they secure the right quality, reliability, and innovation from partners who help the business win.`},
+      {name:"Inventory Management Essentials",detail:`## What is it?\nInventory management controls what stock to hold, how much, and where — balancing the cost of holding excess stock against the risk of running out and losing sales.\n\n## Why it matters\nInventory directly ties up working capital — every unit on the shelf is cash that could be deployed elsewhere, making optimisation a direct lever on both profit and cash flow.\n\n## Key takeaway\nZara holds just 6–8 days of stock vs the industry average of 52+ days — proof that inventory management is a source of competitive advantage, not just an operational necessity.`},
+      {name:"Demand Planning Basics",detail:`## What is it?\nDemand planning uses historical data, market intelligence, and commercial inputs to forecast future customer demand — the starting point for every supply, production, and inventory decision.\n\n## Why it matters\nA 10% improvement in forecast accuracy typically delivers 5–15% reduction in inventory and 2–3% improvement in service levels — directly impacting working capital and customer satisfaction.\n\n## Key takeaway\nEvery supply chain decision downstream — what to make, buy, stock, and ship — is only as good as the demand forecast it's built on.`},
+      {name:"Replenishment Planning Basics",detail:`## What is it?\nReplenishment planning determines when to order more stock and how much to order — triggering purchase orders automatically when inventory falls to a calculated reorder point.\n\n## Why it matters\nPoor replenishment is the root cause of both stockouts (lost revenue) and overstock (wasted capital) — the two most costly inventory failures in any supply chain.\n\n## Key takeaway\nP&G's VMI programme with Walmart reduced Walmart's inventory by 30% while improving P&G's forecast accuracy by 40% — showing that smart replenishment benefits both sides of the supply chain.`},
+      {name:"Warehouse Operations Overview",detail:`## What is it?\nWarehouse operations cover receiving, put-away, storage, picking, packing, and despatch — the physical engine room that converts supply plans into actual customer deliveries.\n\n## Why it matters\nPick accuracy, throughput speed, and cost per order are the metrics that directly determine whether customer promises are kept — and whether the operation is profitable at scale.\n\n## Key takeaway\nAmazon's random-storage model combined with 750,000+ robots achieves 1.6M+ orders per day at 99.9% accuracy — proving warehouse design is a strategic, not just operational, decision.`},
+      {name:"Transportation Modes & Networks",detail:`## What is it?\nTransportation modes — road, ocean, air, and rail — each offer different trade-offs of cost, speed, capacity, and carbon footprint, and most supply chains use multiple modes across different lanes.\n\n## Why it matters\nMode selection is one of the biggest cost levers in logistics — switching 10% of shipments from air to ocean can reduce freight cost on those lanes by up to 80%.\n\n## Key takeaway\nIKEA's flat-pack design triples container utilisation versus assembled furniture — turning packaging into a logistics cost reduction and a transport sustainability strategy simultaneously.`},
+      {name:"Supply Chain KPIs (OTIF, Fill Rate, Inventory Turns)",detail:`## What is it?\nSupply chain KPIs — OTIF, fill rate, inventory turns, and perfect order rate — are the measurable numbers that track whether the supply chain is delivering on its service, cost, and efficiency commitments.\n\n## Why it matters\nWalmart penalises suppliers 3% of invoice value for missing 98.5% OTIF — making KPI performance a direct P&L issue, not just an operational metric.\n\n## Key takeaway\nWhat gets measured gets managed — the right KPI set aligns the entire supply chain organisation around the outcomes that matter to the business and its customers.`}
+    ],
+    vids:[{id:"Mi1QBxVjZAg",t:"SCM explained simply"},{id:"7NEtSEDR02k",t:"SCOR Model overview"}]
+  },
+  {
+    title:"Core Planning Processes", badge:"Core",
+    sub:"Structured frameworks aligning supply with demand",
+    color:"#3b82f6", cbg:"rgba(59,130,246,0.13)",
+    img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=75", cap:"Data analytics & planning",
+    overview:{what:"Core planning processes are structured frameworks aligning supply with demand — from high-level S&OP down to day-to-day MRP execution.",why:"Without structured planning, businesses react to problems instead of preventing them.",concepts:["S&OP: monthly demand/supply balance","IBP: S&OP plus financial reconciliation","MRP: what to make, buy, and when","MPS: detailed production schedule"],kpis:["Forecast Accuracy","Plan Attainment %","Inventory vs Target DOS","Capacity Utilisation %"]},
+    topics:[
+      {name:"Plan → Source → Make → Deliver → Return",detail:`## What is it?\nThe SCOR model defines five universal supply chain processes — Plan, Source, Make, Deliver, Return — providing a standard framework for describing, benchmarking, and improving any supply chain.\n\n## Why it matters\nCisco used SCOR to redesign their supply chain after a $2.2B inventory write-down, cutting supply chain costs by $500M annually and improving OTIF from 70% to 95%.\n\n## Key takeaway\nSCOR gives every team a common language — turning vague improvement ambitions into specific, measurable process changes.`},
+      {name:"Sales & Operations Planning (S&OP)",detail:`## What is it?\nS&OP is a monthly business planning process balancing demand, supply, inventory, and financial plans — producing one agreed operational plan that drives all decisions across the business.\n\n## Why it matters\nUnilever runs S&OP across 190 countries, resolving supply gaps 8 weeks before they become customer service failures and avoiding £200M+ of annual disruption cost.\n\n## Key takeaway\nS&OP replaces reactive firefighting with proactive decision-making — it is the heartbeat of a well-run supply chain.`},
+      {name:"Integrated Business Planning (IBP)",detail:`## What is it?\nIBP extends S&OP by fully integrating financial planning, strategic initiatives, and portfolio management — connecting the supply plan directly to the P&L and balance sheet.\n\n## Why it matters\nGSK implemented IBP across 47 manufacturing sites, reducing working capital by £400M and improving forecast accuracy from 60% to 85% MAPE.\n\n## Key takeaway\nIBP elevates supply chain planning from an operational activity to a strategic business process that drives financial performance.`},
+      {name:"Master Production Scheduling (MPS)",detail:`## What is it?\nThe MPS specifies exactly what to produce, in what quantities, and when — translating the S&OP into a feasible production programme that respects capacity and material constraints.\n\n## Why it matters\nBoeing's MPS for the 737 Max coordinates 367 major suppliers and 600,000+ parts — today's schedule drives purchase orders for components assembled six months later.\n\n## Key takeaway\nThe MPS is the bridge between commercial ambition and manufacturing reality — without it, customer commitments are made without checking if they can be kept.`},
+      {name:"Material Requirements Planning (MRP)",detail:`## What is it?\nMRP calculates what materials are needed, in what quantities, and when — by exploding the production schedule through the Bill of Materials and netting off current inventory and open orders.\n\n## Why it matters\nToyota's MRP system is so precise that components arrive at the assembly line within a 2-hour window of when they're needed — eliminating on-site warehousing and saving billions in inventory costs.\n\n## Key takeaway\nMRP is the engine that translates a sales plan into purchase orders — without it, procurement and production run on guesswork.`},
+      {name:"Capacity Planning",detail:`## What is it?\nCapacity planning ensures that manufacturing, warehousing, and logistics resources are sufficient to meet the production plan — identifying bottlenecks before they cause missed deliveries.\n\n## Why it matters\nDuring the 2021 chip shortage, TSMC's capacity allocation decisions determined which entire industries could build products — making their capacity plan one of the most consequential in global supply chain history.\n\n## Key takeaway\nCapacity planning is the reality check of supply chain — where optimistic sales plans meet the hard constraints of machines, people, and time.`},
+      {name:"Order Management & Fulfillment",detail:`## What is it?\nOrder management covers the end-to-end process from receiving a customer order to delivery — including order capture, stock allocation, picking, packing, shipping, and tracking.\n\n## Why it matters\nAmazon processes 1.6M+ orders per day with 99.9%+ accuracy, automatically selecting the optimal fulfilment centre, carrier, and route for each order while guaranteeing Prime delivery windows.\n\n## Key takeaway\nOrder management is where supply chain performance becomes visible to the customer — every failure directly impacts satisfaction and loyalty.`},
+      {name:"Supplier Relationship Management",detail:`## What is it?\nSRM is the systematic approach to segmenting, evaluating, developing, and managing suppliers — going beyond transactional purchasing to strategic partnership with key supply base members.\n\n## Why it matters\nApple's SRM team works with TSMC 3–5 years ahead of product launches, pre-paying billions in capacity and co-investing in equipment — creating a relationship so deep TSMC prioritises Apple above all others.\n\n## Key takeaway\nThe best supply chains treat key suppliers as an extension of their own organisation — investing in the relationship creates innovation and resilience that pure transactional buying never can.`}
+    ],
+    vids:[{id:"v6IcFAk4PDg",t:"S&OP process walkthrough"},{id:"gRo4NbEjfVc",t:"MRP & MPS explained"}]
+  },
+  {
+    title:"Forecasting Fundamentals", badge:"Analytical",
+    sub:"Estimating future demand with confidence",
+    color:"#10b981", cbg:"rgba(16,185,129,0.13)",
+    img:"https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=75", cap:"Data & forecasting analytics",
+    overview:{what:"Demand forecasting estimates future customer demand using historical data, statistical methods, and market intelligence.",why:"Accurate forecasts reduce excess inventory, prevent stockouts, and improve customer service.",concepts:["Qualitative: expert judgment and market research","Quantitative: statistical models from historical data","MAPE: Mean Absolute Percentage Error","Bias: systematic over or under-forecasting"],kpis:["MAPE","Forecast Bias","WAPE","Forecast Value Added (FVA)"]},
+    topics:[
+      {name:"Qualitative Forecasting (Judgmental, Delphi)",detail:`## What is it?\nQualitative forecasting uses expert judgment, market research, and structured consensus methods (like Delphi) to predict demand when historical data is limited or unreliable — essential for new products and disrupted markets.\n\n## Why it matters\nWhen Apple launched the original iPhone in 2007, there was no historical data — Steve Jobs used expert judgment to target 10 million units in year one, validating the qualitative approach for genuinely novel products.\n\n## Key takeaway\nQualitative methods are not inferior to statistical ones — for new products or market disruptions, expert judgment is often the only viable forecasting approach.`},
+      {name:"Time Series Forecasting",detail:`## What is it?\nTime series forecasting uses patterns in historical demand — trend, seasonality, and cyclicality — to project future values, assuming the past is a reliable guide to the future.\n\n## Why it matters\nCoca-Cola uses time series to predict consistent 30–40% summer volume uplifts, setting production targets 12 weeks in advance and eliminating both seasonal shortages and post-summer overstock.\n\n## Key takeaway\nTime series forecasting works best when history repeats — stable products with clear seasonal patterns are the ideal candidates.`},
+      {name:"Causal Forecasting",detail:`## What is it?\nCausal forecasting predicts demand by modelling its relationship with external drivers — price, promotions, weather, and economic indicators — quantifying exactly how each factor moves volume.\n\n## Why it matters\nHeineken's causal model shows a 1°C temperature increase drives +2.3% beer demand and a 10% promotional price cut drives +18% volume — enabling precise production planning around weather and events.\n\n## Key takeaway\nCausal forecasting turns external market intelligence into quantified planning inputs — the bridge between qualitative knowledge and planning system requirements.`},
+      {name:"Short-Term vs Long-Term Forecasting",detail:`## What is it?\nShort-term forecasts (days to weeks) drive operational decisions like replenishment and production scheduling, while long-term forecasts (months to years) inform strategic decisions like capacity investment and network design.\n\n## Why it matters\nAirbus forecasts aircraft demand 20 years ahead to justify billion-dollar factory investments, while managing 6-month rolling production schedules for current orders — two entirely different forecasting disciplines running in parallel.\n\n## Key takeaway\nMatch your method to your decision horizon — long-term strategic forecasts used for short-term operational decisions are one of the most common and costly planning errors.`},
+      {name:"Forecast Accuracy Metrics (MAPE, WAPE, Bias)",detail:`## What is it?\nForecast accuracy metrics — MAPE, WAPE, and Bias — measure how close demand predictions are to actual demand, providing the feedback loop needed to improve forecasting and identify systematic errors.\n\n## Why it matters\nA CPG company found sales team overrides worsened forecast accuracy by 8% MAPE, adding £4M of excess stock annually — only revealed when FVA analysis was applied to measure the impact of manual adjustments.\n\n## Key takeaway\nMAPE without bias is incomplete — a forecast can look accurate on average but consistently over-predict, invisibly inflating inventory across the entire network.`},
+      {name:"Forecast Error Analysis",detail:`## What is it?\nForecast error analysis systematically investigates why forecasts deviate from actual demand — decomposing errors by product, customer, and time period to identify fixable root causes versus irreducible random noise.\n\n## Why it matters\nUnilever's tracking signal dashboard automatically escalates any SKU where cumulative error exceeds ±4 for two consecutive months — catching model drift before it creates stock imbalances across 50,000 SKUs.\n\n## Key takeaway\nThe value of error analysis is not measuring failure — it's identifying systematic, fixable errors that once corrected permanently improve accuracy across thousands of SKUs.`},
+      {name:"Seasonality & Trend Identification",detail:`## What is it?\nSeasonality quantifies regular, predictable demand fluctuations within a year (e.g. Christmas, summer peaks), while trend captures the long-run growth or decline direction — both must be modelled to forecast accurately.\n\n## Why it matters\nCadbury's Easter egg seasonality index reaches 8.2× average weekly demand in March/April, driving a January–February production run that builds 6 months of seasonal stock without post-Easter write-offs worth millions.\n\n## Key takeaway\nFailing to model seasonality correctly creates systematic stockouts at peak and costly overstock off-peak — the same preventable mistake repeated every single year.`},
+      {name:"Demand Segmentation (ABC/XYZ)",detail:`## What is it?\nABC/XYZ classifies products by revenue contribution (A=top 80%, B=next 15%, C=bottom 5%) and demand variability (X=stable, Y=variable, Z=erratic) — enabling differentiated forecasting and inventory strategies per segment.\n\n## Why it matters\nA grocery retailer with 50,000 SKUs found that focusing forecasting effort on just 200 AX items (0.4% of the range) improved overall service level by 3% while reducing total inventory by £8M.\n\n## Key takeaway\nNot all SKUs deserve equal planning attention — ABC/XYZ tells you exactly where to invest your time, models, and safety stock budget for maximum return.`}
+    ],
+    vids:[{id:"R3PPBc4w_KQ",t:"ABC/XYZ analysis explained"},{id:"2rVheoSPFSE",t:"Forecast accuracy metrics deep dive"}]
+  },
+  {
+    title:"Forecasting Models", badge:"Analytical",
+    sub:"Mathematical techniques for demand prediction",
+    color:"#8b5cf6", cbg:"rgba(139,92,246,0.13)",
+    img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=75", cap:"Predictive modelling & analytics",
+    overview:{what:"Forecasting models are mathematical techniques predicting future demand from historical patterns and external signals.",why:"The right model for the right product type dramatically improves forecast accuracy.",concepts:["Moving Average: simple average of last N periods","Exponential Smoothing: weighted average favouring recent data","ARIMA: captures autocorrelation and trend","ML models: XGBoost, Random Forest"],kpis:["MAPE by model type","Forecast Value Added vs naive","Model stability over time"]},
+    topics:[
+      {name:"Moving Average Models",detail:`## What is it?\nMoving Average models forecast demand by averaging actual demand over a fixed number of past periods — simple, transparent, and effective as a baseline for stable, low-variability products.\n\n## Why it matters\nA food manufacturer using 4-week SMA across 800 stable ambient SKUs achieves 91% forecast accuracy at SKU-week level — sufficient for fully automated replenishment without any planner intervention.\n\n## Key takeaway\nMoving averages are the benchmark every supply chain should beat — if a more complex method doesn't outperform a simple MA, the added complexity isn't justified.`},
+      {name:"Exponential Smoothing (SES, DES, TES)",detail:`## What is it?\nExponential Smoothing gives exponentially decreasing weight to older data — SES for stable demand, DES (Holt's) adding trend correction, and TES (Holt-Winters) adding both trend and seasonal components.\n\n## Why it matters\nAmazon uses Holt-Winters as its baseline across millions of SKUs — for seasonal products like sunscreen, TES outperforms simple moving average by 15–20% MAPE by capturing both growth trend and summer uplift simultaneously.\n\n## Key takeaway\nExponential smoothing is the workhorse of operational forecasting — fast to compute, easy to explain, and surprisingly accurate for the majority of stable to moderately seasonal products.`},
+      {name:"ARIMA / SARIMA Models",detail:`## What is it?\nARIMA combines past values, differencing for stationarity, and past forecast errors to model time series; SARIMA extends this with seasonal parameters — the statistical gold standard for univariate demand forecasting.\n\n## Why it matters\nA beverage company switched from moving average to SARIMA on weekly sales data, improving forecast accuracy from 28% MAPE to 11% MAPE — reducing safety stock by 35% while maintaining the same service level.\n\n## Key takeaway\nARIMA delivers when history has clear patterns — but requires sufficient data history, stable demand, and statistical expertise to implement and maintain correctly.`},
+      {name:"Croston's Method (Intermittent Demand)",detail:`## What is it?\nCroston's method separately forecasts the average demand size and the average interval between sales using exponential smoothing — specifically designed for intermittent demand with many zero-demand periods.\n\n## Why it matters\nAn automotive parts distributor switching from moving average to Croston's on 60% of intermittent SKUs reduced forecast error by 40% and cut obsolete stock write-offs by £2M annually.\n\n## Key takeaway\nUsing standard forecasting methods on intermittent demand produces wildly inaccurate results — Croston's is the specialist tool that makes slow-moving and spare-parts inventory manageable.`},
+      {name:"Regression Models",detail:`## What is it?\nRegression models demand as a function of external drivers — price, promotions, weather, economic indicators — quantifying exactly how much each variable moves demand volume.\n\n## Why it matters\nHeineken's regression model quantifies that a 10% promotional price cut drives +18% volume and a 1°C temperature increase drives +2.3% beer demand — enabling precise production planning around events and weather forecasts.\n\n## Key takeaway\nRegression turns qualitative market knowledge into quantified forecast inputs — the bridge between commercial intelligence and planning system requirements.`},
+      {name:"Machine Learning Forecasting (XGBoost, Random Forest)",detail:`## What is it?\nML forecasting uses algorithms that learn complex, non-linear relationships between demand and hundreds of features — price, promotions, weather, competitor activity — capturing patterns that classical statistics cannot model.\n\n## Why it matters\nWalmart uses gradient-boosted trees trained on 400+ features for 100M+ SKU-location combinations weekly, achieving 15–20% better MAPE than statistical baselines — representing billions in reduced inventory and prevented lost sales.\n\n## Key takeaway\nML forecasting excels when demand is driven by many interacting external factors — but requires clean data, skilled data scientists, and ongoing model maintenance to sustain its accuracy.`},
+      {name:"Deep Learning Forecasting (LSTM, Transformers)",detail:`## What is it?\nDeep learning forecasting uses neural networks — LSTMs and Temporal Fusion Transformers — to learn complex temporal patterns across long demand sequences that shallower models consistently miss.\n\n## Why it matters\nAmazon's DeepAR model, trained globally across all SKUs simultaneously, outperformed per-SKU statistical models by 25% MAPE — particularly on new products with limited history by learning patterns shared across similar products.\n\n## Key takeaway\nDeep learning delivers its greatest value at scale — millions of SKUs, rich feature data, and engineering capability to train and maintain neural models in production.`},
+      {name:"Probabilistic Forecasting",detail:`## What is it?\nProbabilistic forecasting produces a range of demand outcomes with associated probabilities — rather than a single point estimate — enabling risk-informed inventory decisions based on the full distribution of possible futures.\n\n## Why it matters\nAmazon holds inventory at the P85 demand quantile at each fulfilment centre — ensuring 85% probability of no stockout while consciously optimising the cost of the remaining 15% risk rather than blindly chasing a point forecast.\n\n## Key takeaway\nProbabilistic forecasting changes the question from "what will demand be?" to "what is the range of outcomes and what does each cost?" — enabling genuinely risk-informed inventory decisions.`}
+    ],
+    vids:[{id:"HcahBD7biLg",t:"ML forecasting in supply chain"},{id:"0EOTKVoJsQ0",t:"ARIMA & time series models"}]
+  },
+  {
+    title:"Forecasting Parameters", badge:"Analytical",
+    sub:"Required inputs that shape every forecast",
+    color:"#ef4444", cbg:"rgba(239,68,68,0.13)",
+    img:"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=75", cap:"Supply chain data inputs",
+    overview:{what:"Forecasting parameters are inputs and settings configuring how forecasting models generate predictions.",why:"Wrong parameters produce systematically biased forecasts across thousands of SKUs.",concepts:["History length: periods of data to include","Service level: target fill rate drives safety stock","Lead time: affects replenishment timing","MOQ: minimum order quantity constrains options"],kpis:["Forecast accuracy by parameter segment","Safety stock investment vs service level","Working capital impact"]},
+    topics:[
+      {name:"Historical Demand Data",detail:`## What is it?\nHistorical demand data is the foundation of all quantitative forecasting — the record of past customer demand used to identify patterns, fit models, and generate predictions for future periods.\n\n## Why it matters\nA retailer whose system was trained on shipment data (not POS sales) found it systematically under-forecast during stockout periods — switching to POS data improved MAPE by 12% across 3,000 SKUs overnight.\n\n## Key takeaway\nGarbage in, garbage out — data quality is the single biggest determinant of forecast accuracy, more important than any model complexity or algorithmic sophistication.`},
+      {name:"Lead Time & Lead Time Variability",detail:`## What is it?\nLead time is the time between placing an order and receiving goods; lead time variability is the uncertainty around that average — both must be quantified to calculate accurate safety stock requirements.\n\n## Why it matters\nA UK retailer with 45-day average lead times and ±12 days variability found that factoring in variability (not just the average) increased safety stock by 40% — but reduced stockouts by 85% and eliminated £1.2M in annual emergency air freight costs.\n\n## Key takeaway\nIt is the variability in lead time that creates stockouts, not the average — ignoring it is one of the most common and costly safety stock calculation errors.`},
+      {name:"Service Level Targets",detail:`## What is it?\nService level targets define the probability of fulfilling customer demand from available stock — expressed as a Z-score in safety stock calculations and the primary commercial driver of inventory investment decisions.\n\n## Why it matters\nAmazon Prime targets 99.9% availability, requiring Z=3.09 in safety stock formulas — for a product with σ=20 units/day and a 2-day lead time, that means holding 87 units of safety stock per SKU across millions of products.\n\n## Key takeaway\nService level targets are commercial commitments expressed as numbers — differentiating targets by SKU importance is the key to optimising the cost-service trade-off across the portfolio.`},
+      {name:"Seasonality Index",detail:`## What is it?\nA seasonality index is a multiplier quantifying how demand in a specific period compares to the annual average — enabling forecasting systems to automatically scale predictions up or down for recurring seasonal patterns.\n\n## Why it matters\nCadbury's Easter egg seasonality index reaches 8.2× average weekly demand in March/April, driving a January–February production run that pre-builds 6 months of seasonal stock without post-Easter write-offs worth millions.\n\n## Key takeaway\nSeasonality indices prevent forecasting systems from being perpetually surprised by the same recurring demand patterns — the same preventable mistake repeated year after year.`},
+      {name:"Trend Coefficients",detail:`## What is it?\nTrend coefficients quantify the rate at which underlying demand is growing or declining over time — essential for projecting forecasts beyond the historical period without systematically over or under-predicting.\n\n## Why it matters\nA consumer electronics brand failed to damp a 3.2% weekly growth trend for long-horizon forecasting, producing a 40% over-forecast for 2021 and creating £8M of excess stock when growth plateaued.\n\n## Key takeaway\nTrend is the most dangerous forecasting parameter to get wrong for long horizons — small systematic errors compound over months into massive over or under-production.`},
+      {name:"Safety Stock Parameters",detail:`## What is it?\nSafety stock parameters — service level Z-score, demand standard deviation, and lead time — are the inputs to SS = Z × σ × √LT, the formula that converts uncertainty into the physical inventory buffer protecting against stockouts.\n\n## Why it matters\nA pharma distributor recalculating safety stock parameters quarterly (vs annually) identified 30% of SKUs where actual demand variability had materially changed — right-sizing safety stock saved £1.8M in working capital while maintaining service levels.\n\n## Key takeaway\nSafety stock parameters are not set-and-forget — stale inputs silently create either stockouts or excess inventory across the entire portfolio as demand patterns evolve.`},
+      {name:"Reorder Point Inputs",detail:`## What is it?\nReorder Point inputs — average daily demand, lead time, and safety stock — feed the formula ROP = (D × LT) + SS, which determines the exact inventory level at which a new purchase order must be triggered.\n\n## Why it matters\nA distributor recalculating ROPs annually found 35% of SKUs had significantly changed demand patterns since the last update — causing 420 stockouts and £600K in lost margin, fixed by moving to monthly automated recalculation.\n\n## Key takeaway\nA ROP correct 12 months ago may be dangerously wrong today — automated, frequent recalculation is essential for any business with dynamic demand or variable supplier lead times.`},
+      {name:"Minimum Order Quantity (MOQ)",detail:`## What is it?\nMOQ is the smallest quantity a supplier will produce or sell in a single order — a constraint that directly impacts how much inventory must be held and how frequently replenishment can occur regardless of EOQ.\n\n## Why it matters\nA fashion retailer negotiating MOQ from 5,000 to 1,500 units (accepting a 10% price premium) reduced markdown losses by £4M annually — proving that reducing MOQ often delivers more value than negotiating lower unit prices.\n\n## Key takeaway\nMOQ is the most overlooked inventory planning constraint — reducing it through supplier negotiation often delivers more value than months of demand forecasting improvement.`},
+      {name:"Supplier Lead Time Reliability",detail:`## What is it?\nSupplier lead time reliability measures how consistently a supplier delivers within the agreed lead time — quantified as On-Time Delivery % and lead time standard deviation, both direct inputs to safety stock calculations.\n\n## Why it matters\nA manufacturer's analysis showed their backup supplier (75% OTD, σLT=5 days) required 3× more safety stock than their primary supplier (95% OTD, σLT=2 days) — making the working capital cost of poor reliability explicitly visible.\n\n## Key takeaway\nA less reliable supplier is not just an operational headache — it is a quantifiable working capital cost that should directly inform sourcing and dual-supply strategy decisions.`},
+      {name:"Demand Variability (Standard Deviation)",detail:`## What is it?\nDemand variability, measured by standard deviation (σ), quantifies how much actual demand fluctuates around the average — the primary driver of safety stock requirements and the single biggest determinant of inventory investment across the portfolio.\n\n## Why it matters\nA grocery supplier found one key account drove 80% of demand variability through irregular ordering patterns — implementing a weekly ordering schedule reduced that SKU's σ by 45%, cutting safety stock by £400K and stockouts by 60% simultaneously.\n\n## Key takeaway\nReducing demand variability at source through collaboration and ordering discipline is more powerful than increasing safety stock to cope with it after the fact.`},
+      {name:"Forecast Error Metrics (MAD, MSE, RMSE)",detail:`## What is it?\nMAD, MSE, and RMSE measure forecast error in absolute or squared units — MAD is most operationally useful because it directly converts into safety stock via SS = Z × 1.25 × MAD without needing demand distribution assumptions.\n\n## Why it matters\nA consumer goods company used MAD=850 units (weekly) to set safety stock at 1.65 × 850 = 1,403 units for 95% service level — directly translating forecast error into a specific physical inventory number that finance could cost and challenge.\n\n## Key takeaway\nMAD is the bridge between statistical accuracy measurement and physical inventory decisions — the metric that connects the forecast team to the warehouse.`},
+      {name:"Lifecycle Stage (New, Mature, Decline)",detail:`## What is it?\nProduct lifecycle stage — introduction, growth, maturity, decline — determines the appropriate forecasting method, safety stock level, and inventory exit strategy, because demand behaviour is fundamentally different at each stage.\n\n## Why it matters\nApple manages iPhone lifecycle with precision, ramping down safety stock on the current model 6 months before a new launch while simultaneously allocating production capacity to the replacement — minimising write-off and launch stockout risk across a £50B+ annual product transition.\n\n## Key takeaway\nApplying a mature-product forecasting strategy to a new or declining product is one of the most common and costly supply chain mistakes — lifecycle stage must always drive method selection.`}
+    ],
+    vids:[{id:"4WyBYGv8HhU",t:"Safety stock parameters explained"},{id:"PCkbLWuEIeo",t:"Lead time & variability in SC"}]
+  },
+  {
+    title:"Replenishment Planning", badge:"Operations",
+    sub:"Determining when and how much to order",
+    color:"#f97316", cbg:"rgba(249,115,22,0.13)",
+    img:"https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=75", cap:"Warehouse & inventory operations",
+    overview:{what:"Replenishment planning determines when and how much to order to maintain optimal inventory levels.",why:"Poor replenishment leads to stockouts or overstock — the two most expensive outcomes in supply chain.",concepts:["ROP: Reorder Point — triggers an order","EOQ: Economic Order Quantity — optimal size","Safety Stock: buffer against variability","Min-Max: simple boundary system"],kpis:["Days of Supply (DOS)","Fill Rate %","Inventory Turns","Stock Cover vs Target"]},
+    topics:[
+      {name:"Reorder Point (ROP) Method",detail:`## What is it?\nThe Reorder Point is the inventory level at which a new replenishment order must be placed — calculated as ROP = (Average daily demand × Lead time) + Safety stock.\n\n## Why it matters\nA medical distributor using automated ROP triggers for 5,000 SKUs maintains 99% availability on surgical supplies without manual intervention — orders fire automatically the moment stock hits the calculated threshold.\n\n## Key takeaway\nGet the ROP right and inventory runs itself; get it wrong and planners spend every day firefighting stockouts and expediting emergency orders.`},
+      {name:"Min-Max Planning",detail:`## What is it?\nMin-Max sets two inventory boundaries — a minimum level that triggers an order and a maximum level to order up to — providing a simple, rule-based replenishment system that is transparent and easy to operate at scale.\n\n## Why it matters\nA hospital pharmacy uses Min-Max for 800 drug SKUs, with the system scanning all items below minimum every morning and generating purchase orders automatically — freeing pharmacists entirely from manual stock management.\n\n## Key takeaway\nMin-Max is the right tool for simple, stable environments where transparency and operational ease outweigh the marginal gains of more sophisticated optimisation approaches.`},
+      {name:"Periodic Review Systems",detail:`## What is it?\nIn periodic review, inventory is checked and orders placed at fixed time intervals (weekly, monthly) rather than continuously — trading some additional safety stock cost for the operational simplicity of a predictable ordering schedule.\n\n## Why it matters\nA retailer ordering from each supplier on a fixed weekly schedule consolidates freight, simplifies supplier relationships, and reduces transaction costs — accepting slightly higher safety stock as the cost of the operational simplicity gained.\n\n## Key takeaway\nPeriodic review trades inventory efficiency for operational simplicity — the right choice when fixed-schedule ordering delivers consolidation savings that outweigh the extra buffer stock required.`},
+      {name:"Continuous Review Systems",detail:`## What is it?\nIn continuous review, inventory is monitored in real time and a replenishment order triggers immediately whenever stock falls to the reorder point — minimising safety stock by reducing the exposure period to demand variability.\n\n## Why it matters\nAmazon uses continuous review across 350M+ SKUs — every customer purchase decrements inventory instantly, and when any ASIN at any fulfilment centre crosses its ROP, an automated purchase order fires without any human involvement.\n\n## Key takeaway\nContinuous review minimises safety stock and maximises responsiveness — the right system for high-value, fast-moving SKUs where stockout costs justify the investment in real-time monitoring.`},
+      {name:"Safety Stock Calculation",detail:`## What is it?\nSafety stock is the buffer inventory above average lead time demand, calculated as SS = Z × σ_demand × √Lead Time — protecting against stockouts caused by demand spikes or supply delays.\n\n## Why it matters\nAmazon targets 99.9% Prime availability (Z=3.09) — for a product with σ=20 units/day and a 2-day lead time, safety stock = 87 units; reducing lead time to 1 day drops it to 62 units, a 29% reduction purely from supplier improvement.\n\n## Key takeaway\nSafety stock is the calculated cost of your service level commitment — the formula makes explicit exactly what each additional percentage point of availability costs in physical inventory.`},
+      {name:"Economic Order Quantity (EOQ)",detail:`## What is it?\nEOQ is the order quantity minimising total inventory cost — calculated as EOQ = √(2DS/H) where D=annual demand, S=order cost, H=holding cost — finding the point where ordering cost equals holding cost.\n\n## Why it matters\nA distributor ordering 500 units of an industrial fastener discovered their EOQ was 361 units — switching to EOQ-sized orders reduced total annual inventory cost by £1,800 per SKU, saving £7.2M across 4,000 SKUs.\n\n## Key takeaway\nEOQ is simple but powerful — even with approximate inputs it delivers far better results than gut-feel ordering quantities, and forces explicit recognition of both holding and ordering costs.`},
+      {name:"Multi-Echelon Inventory Optimization (MEIO)",detail:`## What is it?\nMEIO optimises inventory levels simultaneously across all levels of the supply network — factory, regional DC, local DC, and store — rather than independently optimising each location, treating the network as a system.\n\n## Why it matters\nHP implemented MEIO for their printer supply chain, pooling risky components centrally and configuring locally — reducing finished goods inventory by $120M while maintaining service levels, pioneering postponement in high-tech manufacturing.\n\n## Key takeaway\nOptimising each warehouse independently always produces a sub-optimal network — MEIO treats the supply chain as a system and unlocks inventory reductions that no amount of local optimisation can achieve.`},
+      {name:"Distribution Requirements Planning (DRP)",detail:`## What is it?\nDRP is a demand-driven planning method that projects future inventory levels at each distribution location and generates time-phased replenishment orders across the network — replacing reactive ordering with proactive planning.\n\n## Why it matters\nNestle uses DRP across 12 regional DCs serving 50,000+ delivery points, projecting 13 weeks of requirements and automatically generating transfer orders — synchronising the entire distribution network on a weekly planning cycle.\n\n## Key takeaway\nDRP transforms replenishment from reactive (order when low) to proactive (plan requirements weeks ahead) — eliminating both stockouts and the emergency logistics costs that reactive replenishment inevitably creates.`}
+    ],
+    vids:[{id:"cizmQc2gkNY",t:"EOQ & replenishment planning"},{id:"KiI0W8vKWkk",t:"Inventory optimisation techniques"}]
+  },
+  {
+    title:"Tools & Systems", badge:"Core",
+    sub:"Software platforms enabling planning and execution",
+    color:"#06b6d4", cbg:"rgba(6,182,212,0.13)",
+    img:"https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800&q=75", cap:"Distribution & logistics systems",
+    overview:{what:"Supply chain tools and systems are software platforms enabling planning, execution, visibility, and analytics.",why:"Manual planning breaks down at scale — modern systems process millions of data points in minutes.",concepts:["ERP: backbone system (SAP, Oracle)","APS: optimised supply/demand planning","WMS: warehouse operations","TMS: freight and routing"],kpis:["System adoption rate","Data accuracy %","Planning cycle time reduction"]},
+    topics:[
+      {name:"ERP Systems (SAP MM/PP/SD, Oracle SCM)",detail:`## What is it?\nERP systems integrate all core business processes — finance, procurement, production, sales, and logistics — into a single connected platform, with SAP MM/PP/SD covering the end-to-end supply chain from purchase order to customer delivery.\n\n## Why it matters\nNestle's SAP S/4HANA implementation across 80 countries reduced ERP instances from 80 to 1, standardised 900 business processes, and enabled procurement savings of over $700M annually through unified data and global visibility.\n\n## Key takeaway\nAn ERP is only as good as its master data — every planning, procurement, and reporting process depends on accurate material masters, vendor data, and BOMs being maintained in real time.`},
+      {name:"Advanced Planning Systems (SAP APO, IBP, Blue Yonder)",detail:`## What is it?\nAdvanced Planning Systems sit on top of ERP to deliver sophisticated demand forecasting, supply planning, and network optimisation — running complex algorithms across the full supply chain that standard ERP modules cannot perform.\n\n## Why it matters\nP&G implemented SAP APO reducing planning cycle time from 3 weeks to 3 days, improving forecast accuracy by 20%, and auto-generating replenishment plans for 50,000+ SKUs across 100+ manufacturing sites without manual intervention.\n\n## Key takeaway\nAPS delivers its value through speed and optimisation — but requires clean ERP master data and disciplined process governance to realise the promised benefits.`},
+      {name:"Warehouse Management Systems (WMS)",detail:`## What is it?\nA WMS manages and optimises all warehouse operations in real time — directing goods receiving, put-away, storage, picking, packing, and despatch through barcode or RFID-confirmed transactions at every step.\n\n## Why it matters\nOcado's proprietary WMS coordinates 1,000+ robots on a grid, picking a 50-item grocery order in under 5 minutes with 99.9% accuracy and processing 500,000+ order lines per hour — impossible with any manual or legacy system.\n\n## Key takeaway\nA WMS transforms a warehouse from a storage facility into a precision fulfilment engine — the difference between a 24-hour and a 1-hour pick-to-ship cycle time.`},
+      {name:"Transportation Management Systems (TMS)",detail:`## What is it?\nA TMS plans, executes, and optimises the physical movement of goods — managing carrier selection, route planning, freight booking, shipment tracking, and freight invoice validation against contracted rates.\n\n## Why it matters\nUPS's ORION TMS optimises 55,000 driver routes daily by avoiding left turns, saving 100M miles, 10M gallons of fuel, and 100,000 metric tons of CO2 annually — delivering commercial and environmental benefit simultaneously.\n\n## Key takeaway\nA TMS is one of the highest-ROI technology investments in logistics — route optimisation alone typically delivers 10–15% freight cost reduction within the first year of implementation.`},
+      {name:"Inventory Optimization Tools",detail:`## What is it?\nInventory optimisation tools calculate mathematically optimal stock policies — safety stock, reorder points, and order quantities — across thousands of SKUs simultaneously, replacing rule-of-thumb targets with data-driven precision.\n\n## Why it matters\nSlimstock's Slim4 implementation at a Dutch retailer optimised 120,000 SKUs, reducing total inventory by 18% (€8M) while simultaneously improving service level from 94% to 97.2% — proving that optimisation improves both metrics at once.\n\n## Key takeaway\nInventory optimisation tools pay for themselves rapidly — the gap between rule-of-thumb and mathematically optimal safety stock across a large portfolio is typically 15–25% inventory reduction.`},
+      {name:"Forecasting Tools (Forecast Pro, SAP IBP, Anaplan)",detail:`## What is it?\nDedicated forecasting tools combine automatic statistical model selection, ML-powered baseline generation, collaborative override workflow, and accuracy tracking — all integrated with ERP and planning systems.\n\n## Why it matters\nA consumer goods company using Forecast Pro across 5,000 SKUs reduced MAPE from 35% to 19% — primarily through automatic model selection replacing manual moving average application and FVA analysis eliminating counterproductive commercial overrides.\n\n## Key takeaway\nThe best forecasting tool is the one your team will actually use — usability, transparency, and ERP integration matter as much as algorithmic sophistication.`},
+      {name:"Power BI / Tableau for Analytics",detail:`## What is it?\nPower BI and Tableau connect to supply chain data sources — ERP, WMS, TMS, spreadsheets — to create interactive dashboards that make OTIF, forecast accuracy, inventory, and cost performance visible and actionable in real time.\n\n## Why it matters\nA FMCG company's Power BI supply chain control tower, refreshed daily from SAP, reduced weekly reporting time from 2 days to 2 hours — redirecting that time to exception management and supplier performance improvement.\n\n## Key takeaway\nAccessible, fast dashboards that answer the questions planners ask every day create far more value than complex reports nobody reads — visibility without action is just data.`},
+      {name:"Excel Advanced (Pivot, Solver, VBA)",detail:`## What is it?\nAdvanced Excel — pivot tables, Power Query, Solver optimisation, and VBA macros — remains the most widely used supply chain analysis tool, bridging the gap between ERP data and operational decisions across every industry.\n\n## Why it matters\nA supply planner using Excel Solver to optimise production across 3 lines with 12 product constraints found solutions in 30 seconds vs 4 hours of manual scheduling — consistently 8% more efficient than the best manual approach.\n\n## Key takeaway\nExcel mastery is the most universally valuable supply chain skill — it empowers planners to answer their own questions without IT, and a skilled user can solve in hours what takes months to configure in a planning system.`}
+    ],
+    vids:[{id:"0EOTKVoJsQ0",t:"SAP supply chain modules overview"},{id:"F4w-yicBsVg",t:"WMS & TMS systems explained"}]
+  },
+  {
+    title:"Analytics & Optimization", badge:"Data",
+    sub:"Mathematical modelling for optimal supply chain decisions",
+    color:"#84cc16", cbg:"rgba(132,204,22,0.13)",
+    img:"https://images.unsplash.com/photo-1478432780021-b8d273730d8c?w=800&q=75", cap:"Network & supply chain analytics",
+    overview:{what:"Supply chain analytics uses mathematical modelling and algorithms to find optimal solutions to complex problems.",why:"Optimisation finds mathematically proven solutions — reducing costs in ways human intuition cannot achieve.",concepts:["Linear Programming: optimise subject to constraints","Network Optimisation: optimal facility locations","Simulation: model uncertainty risk-free","Routing Optimisation: TSP, VRP"],kpis:["Cost reduction achieved","Service level improvement","Network efficiency score"]},
+    topics:[
+      {name:"Linear Programming (LP)",detail:`## What is it?\nLinear Programming finds the mathematically optimal outcome — maximum profit or minimum cost — subject to a set of linear constraints, using the simplex algorithm to identify the best feasible solution across all decision variables simultaneously.\n\n## Why it matters\nFedEx uses LP to optimise package routing across 650+ aircraft daily, assigning 15M+ packages to flights while minimising total cost and meeting delivery time guarantees — even a 1% improvement from better LP formulation saves tens of millions annually.\n\n## Key takeaway\nLP turns complex multi-variable decisions into mathematically proven optimal solutions — essential for any supply chain problem with a clear objective and measurable constraints.`},
+      {name:"Mixed Integer Programming (MIP)",detail:`## What is it?\nMIP extends Linear Programming to include integer and binary (yes/no) decision variables — essential for supply chain decisions involving discrete choices like facility locations, number of vehicles, or open/close decisions.\n\n## Why it matters\nAmazon uses MIP to decide which fulfilment centres should hold each ASIN, balancing storage cost, inbound freight, and last-mile delivery cost for every SKU-FC combination — making billions of binary placement decisions that reduce total fulfilment cost by hundreds of millions annually.\n\n## Key takeaway\nMIP is the tool for strategic supply chain decisions involving discrete choices — network design, fleet sizing, and facility location problems that Linear Programming cannot handle.`},
+      {name:"Network Optimization Models",detail:`## What is it?\nNetwork optimisation determines the optimal supply chain configuration — number and location of facilities, customer-to-DC assignments, and product flow — to minimise total cost while meeting service level requirements across the network.\n\n## Why it matters\nP&G used network optimisation to redesign their European distribution network, identifying that reducing from 13 to 5 regional DCs cut total logistics cost by 17% through scale economies — while actually improving next-day service to 98% of retailers.\n\n## Key takeaway\nNetwork optimisation reveals that the current supply chain structure is usually a historical accident — significant cost and service improvements are consistently achievable by designing from first principles.`},
+      {name:"Simulation Models (Arena, AnyLogic)",detail:`## What is it?\nSupply chain simulation uses discrete event or agent-based models to replicate the behaviour of complex supply systems under uncertainty — testing designs and policies in a risk-free virtual environment before committing to real-world implementation.\n\n## Why it matters\nBoeing used AnyLogic simulation to model their 787 Dreamliner supply chain before it went live, identifying a supplier quality reject rate that would cascade into production delays — the simulation revealed the bottleneck 18 months early, preventing a £500M schedule impact.\n\n## Key takeaway\nSimulation is supply chain's flight simulator — crash the plane a thousand times in software and fix every flaw before putting passengers on board.`},
+      {name:"Cost-to-Serve Modeling",detail:`## What is it?\nCost-to-Serve analysis calculates the true, fully-loaded cost of servicing each customer, channel, or product using activity-based costing — revealing which commercial relationships are genuinely profitable and which destroy value.\n\n## Why it matters\nUnilever's CtS analysis revealed small independent retailers cost 4× more to serve than major grocery chains — restructuring small-trade service models, delivery frequency, and minimum order values improved small-trade profitability by 12 percentage points.\n\n## Key takeaway\nWithout CtS analysis, companies systematically cross-subsidise unprofitable customers with profitable ones — CtS makes the invisible visible and enables genuinely profit-driven commercial decisions.`},
+      {name:"Scenario Planning & Sensitivity Analysis",detail:`## What is it?\nScenario planning tests how supply chain performance changes under different future assumptions (base, optimistic, stress), while sensitivity analysis identifies which input variables have the greatest impact on cost or service outcomes.\n\n## Why it matters\nUnilever's pre-built disruption scenarios enabled production switching between categories within 72 hours of COVID-19 lockdowns — protecting £200M+ of revenue that competitors without pre-modelled scenarios lost to stockouts.\n\n## Key takeaway\nScenario planning is insurance against being surprised by the future — teams that model disruptions before they happen respond faster, cheaper, and more effectively than those starting from scratch in a crisis.`},
+      {name:"Routing Optimization (TSP, VRP)",detail:`## What is it?\nRouting optimisation finds the most efficient routes for vehicles to deliver goods — TSP for single-vehicle problems and VRP for multi-vehicle fleets with capacity constraints and customer time windows — minimising distance, time, or cost.\n\n## Why it matters\nUPS's ORION routing system saves 100M miles annually by optimising 55,000 driver routes and strategically avoiding left turns — saving 10M gallons of fuel and 100,000 metric tons of CO2 while reducing cost per delivery.\n\n## Key takeaway\nRouting optimisation is one of the highest-ROI analytical applications in logistics — a 5–10% efficiency gain compounds across thousands of vehicles and millions of deliveries into massive annual savings.`},
+      {name:"Inventory Optimization Algorithms",detail:`## What is it?\nInventory optimisation algorithms calculate mathematically optimal stock policies for every SKU — using the newsvendor model, (s,S) policies, and dynamic programming to minimise total inventory cost subject to service level constraints.\n\n## Why it matters\nZara's inventory algorithm manages 12,000 new styles per year using a newsvendor framework — deliberately under-producing to avoid markdowns and accepting intentional stockouts on popular items to preserve scarcity, brand positioning, and margin.\n\n## Key takeaway\nInventory optimisation replaces guesswork with data-driven policies that simultaneously reduce cost and improve service — the mathematical proof that you do not have to choose between the two.`}
+    ],
+    vids:[{id:"V9vMCt6XBpo",t:"Supply chain optimisation explained"},{id:"KFE2zxm1UhA",t:"Network design & analytics"}]
+  },
+  {
+    title:"Modern Supply Chain", badge:"Digital",
+    sub:"AI, IoT, digital twins, and robotics transforming SC",
+    color:"#3b82f6", cbg:"rgba(59,130,246,0.13)",
+    img:"https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=75", cap:"Digital & automated supply chain",
+    overview:{what:"Modern supply chain leverages AI, IoT, blockchain, digital twins, and robotics to create faster, smarter, more resilient supply chains.",why:"Early adopters gain structural cost and service advantages very difficult to compete with.",concepts:["AI/ML: autonomous planning and demand sensing","Digital Twin: real-time virtual replica","IoT: end-to-end sensor visibility","Blockchain: immutable traceability"],kpis:["Automation rate %","Visibility coverage %","Scope 3 emissions reduction"]},
+    topics:[
+      {name:"AI & Machine Learning in Supply Chain",detail:`## What is it?\nAI and ML in supply chain use algorithms trained on historical data to automate routine decisions, improve demand forecasts, predict supply risks, and optimise operations continuously — shifting supply chains from reactive to predictive.\n\n## Why it matters\nAmazon's anticipatory shipping model uses ML to pre-position products in regional fulfilment centres before orders are placed — based on browsing behaviour and demand signals — reducing delivery time by 40% and cutting last-mile cost per order.\n\n## Key takeaway\nAI does not replace supply chain planners — it eliminates routine decisions so planners can focus on the exceptions, relationships, and strategic choices that genuinely require human judgment.`},
+      {name:"Digital Twins",detail:`## What is it?\nA digital twin is a real-time virtual replica of the physical supply chain — continuously updated from sensors, ERP data, and IoT feeds — used for simulation, disruption response, and optimisation without touching live operations.\n\n## Why it matters\nUnilever built a digital twin of their global supply chain in 2022 — when a key port closed, it ran 1,000 rerouting scenarios in minutes and identified the optimal alternative, saving an estimated $50M vs the reactive manual response competitors were forced to execute.\n\n## Key takeaway\nA digital twin turns supply chain management from reactive to proactive — you can see the impact of tomorrow's disruptions before they happen and test your response before committing.`},
+      {name:"Control Towers & Real-Time Visibility",detail:`## What is it?\nA supply chain control tower aggregates real-time data from ERP, WMS, TMS, supplier portals, and carrier APIs into a single dashboard — using AI-powered exception management to alert planners to risks before they become customer service failures.\n\n## Why it matters\nDuring COVID port congestion, Maersk TradeLens customers rerouted shipments 5–7 days faster than those relying on manual status checks — avoiding weeks of costly port demurrage charges by acting on real-time visibility rather than estimated arrivals.\n\n## Key takeaway\nVisibility without action is just data — the value of a control tower is the speed of exception detection and the quality of the coordinated response it enables across suppliers, carriers, and customers.`},
+      {name:"IoT in Logistics",detail:`## What is it?\nIoT uses connected sensors to track the physical location, condition, and status of goods, vehicles, and assets in real time — providing supply chain visibility that was previously impossible without human intervention at every step.\n\n## Why it matters\nMaersk deploys 300,000+ Remote Container Management units monitoring temperature, humidity, and O₂ every 15 minutes — detecting reefer failures within minutes of occurrence and reducing perishable cargo loss by 30% and customer claims by £150M annually.\n\n## Key takeaway\nIoT transforms logistics from assumption-based to fact-based — replacing estimated ETAs and guessed temperatures with real data that drives faster, more accurate supply chain decisions.`},
+      {name:"Blockchain for Traceability",detail:`## What is it?\nBlockchain creates an immutable, shared ledger of supply chain events across multiple parties — enabling trusted traceability without a central authority, where every transaction is permanently recorded and visible to all network participants.\n\n## Why it matters\nWalmart uses IBM Food Trust blockchain to trace leafy green provenance — what previously took 7 days to identify (which farm produced a contaminated bag of spinach) now takes 2.2 seconds, dramatically reducing recall scope and preventing destruction of safe product worth millions.\n\n## Key takeaway\nBlockchain is most valuable in multi-party supply chains where trust is low and reconciliation is costly — food safety, pharma serialisation, and trade finance are the proven high-value use cases.`},
+      {name:"Autonomous Planning Systems",detail:`## What is it?\nAutonomous planning systems use AI to make supply chain decisions — replenishment orders, production schedules, inventory reallocation — without human intervention, operating continuously at machine speed and flagging only true exceptions for review.\n\n## Why it matters\nUnilever's autonomous ordering system generates 80% of purchase orders without planner involvement across 70,000+ SKUs and 190 markets — freeing 300+ planner hours per week that are redirected to exception management and strategic supplier development.\n\n## Key takeaway\nAutonomous planning redirects supply chain planners from data processing to decision-making — from reactive firefighting to the proactive, strategic supply chain management that creates genuine competitive advantage.`},
+      {name:"Robotics & Automation in Warehousing",detail:`## What is it?\nWarehouse robotics uses AMRs, robotic arms, AS/RS systems, and automated sorters to perform physical tasks — picking, packing, storing, and moving goods — faster, more accurately, and at lower cost than human labour at scale.\n\n## Why it matters\nAmazon operates 750,000+ robots across 1,000+ fulfilment centres — Kiva robots bring shelving pods to pickers, reducing travel time by 75% and enabling 300–400 picks per hour vs 100 manually, at 50% lower cost per pick than traditional warehouses.\n\n## Key takeaway\nWarehouse automation makes existing workers dramatically more productive — creating fulfilment capabilities in speed, accuracy, and 24/7 operation that manual warehouses simply cannot match.`},
+      {name:"Sustainability & Green Supply Chain",detail:`## What is it?\nSustainable supply chain management integrates environmental, social, and governance considerations into supply chain decisions — measuring and reducing Scope 3 emissions, eliminating waste, and ensuring ethical sourcing across the entire supply base.\n\n## Why it matters\nIKEA targets climate positivity by 2030 — sourcing 100% renewable energy, switching to wind-powered ocean vessels, designing all products for disassembly and recycling, and requiring all 1,600+ suppliers to commit to science-based emissions targets.\n\n## Key takeaway\nSustainability is no longer optional in supply chain — regulatory requirements, customer expectations, and investor pressure are making ESG performance a commercial differentiator and a compliance requirement simultaneously.`}
+    ],
+    vids:[{id:"Mi1QBxVjZAg",t:"AI & digital supply chain 2024"},{id:"7NEtSEDR02k",t:"Digital twin & IoT in logistics"}]
+  },
+  {
+    title:"Industry Knowledge", badge:"Advanced",
+    sub:"Sector-specific SC challenges, regulations & best practices",
+    color:"#d97706", cbg:"rgba(217,119,6,0.13)",
+    img:"https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&q=75", cap:"Global trade & industry sectors",
+    overview:{what:"Industry knowledge covers unique supply chain characteristics, challenges, and best practices across different sectors.",why:"Every industry has different demand patterns, regulations, and customer expectations.",concepts:["FMCG: high volume, short shelf life, promotions","Pharma: cold chain, serialisation, compliance","Automotive: JIT, Tier networks, long lead times","E-commerce: same-day expectations, returns"],kpis:["Industry service level benchmarks","Regulatory compliance rate","Category fill rate"]},
+    topics:[
+      {name:"Retail Supply Chain",detail:`## What is it?\nRetail supply chain manages the flow of thousands of SKUs from hundreds of suppliers through distribution networks to store shelves — balancing seasonal demand peaks, promotional volatility, planogram compliance, and the growing complexity of omnichannel fulfilment.\n\n## Why it matters\nTesco manages 90,000 SKUs across 3,800 stores with a 24-hour replenishment cycle, processing 2.5M cases per day through their DC network — a scale that requires fully automated demand sensing, replenishment, and DC orchestration.\n\n## Key takeaway\nRetail supply chain success is built on data — POS visibility, accurate demand forecasting, and tight supplier collaboration are the foundation of high availability at low inventory cost.`},
+      {name:"E-commerce Fulfillment",detail:`## What is it?\nE-commerce fulfilment covers the complete process from receiving an online order to delivering it to the customer — warehousing, picking, packing, shipping, carrier management, and handling the 20–30% return rates that define online retail economics.\n\n## Why it matters\nAmazon's Prime fulfilment network processes 1.6M+ orders per day using 750,000+ robots — their 1–2 day delivery promise is only possible by pre-positioning inventory using ML demand predictions before the customer even places the order.\n\n## Key takeaway\nE-commerce fulfilment is won or lost in the last mile — accounting for 40–50% of total fulfilment cost, it is the most expensive, most visible, and most operationally complex part of the customer delivery experience.`},
+      {name:"Manufacturing Supply Chain",detail:`## What is it?\nManufacturing supply chain integrates the inbound flow of raw materials, production planning and scheduling, and outbound distribution of finished goods — connecting purchasing, MRP, production execution, and logistics into a continuous flow.\n\n## Why it matters\nToyota's Production System — kanban pull replenishment, JIT delivery, and continuous improvement — reduced WIP inventory to hours rather than weeks, and after the 2011 earthquake their supply chain recovery was 6 weeks faster than all global competitors.\n\n## Key takeaway\nManufacturing supply chain excellence is built on flow — eliminating anything that interrupts the smooth, continuous conversion of materials into finished products in the hands of customers.`},
+      {name:"Pharma & Cold Chain Logistics",detail:`## What is it?\nPharma supply chain involves highly regulated storage, handling, and distribution with strict temperature requirements — cold chain maintaining defined ranges from manufacture to patient — full serialisation traceability, and mandatory GDP compliance throughout.\n\n## Why it matters\nPfizer's COVID-19 vaccine required storage at -70°C and was delivered to 170+ countries in 18 months — the fastest and most complex global cold chain deployment in history, involving custom thermal shippers and a purpose-built global distribution network.\n\n## Key takeaway\nIn pharma supply chain, a quality or cold chain failure is a patient safety issue — making regulatory compliance and temperature integrity non-negotiable requirements, not operational targets.`},
+      {name:"FMCG Supply Chain",detail:`## What is it?\nFMCG supply chain manages high-volume, short-shelf-life products — food, beverages, personal care — with the defining challenge of balancing razor-thin margins, intense promotional complexity, and near-perfect service level requirements from major retailers.\n\n## Why it matters\nUnilever manages 70,000+ SKUs across 190 markets — during COVID lockdowns, their demand sensing capability using social media and pharmacy sales data enabled production switching between categories within 72 hours, protecting £200M+ of revenue.\n\n## Key takeaway\nFMCG supply chain is the most demanding balance between cost and service in commercial supply chain — margins are thin and retailer expectations are unforgiving, making operational excellence a genuine source of competitive advantage.`},
+      {name:"Automotive Supply Chain",detail:`## What is it?\nAutomotive supply chain is defined by deep multi-tier supplier networks, JIT sequenced delivery to assembly lines, very long tooling lead times of 18–36 months, and catastrophic consequences of any supply failure — one missing part stops the entire production line.\n\n## Why it matters\nDuring the 2021 semiconductor shortage, Toyota held 2–6 months of safety stock on critical chips (a lesson from the 2011 earthquake) — maintaining production while GM, Ford, and VW shut assembly lines and collectively lost over 1M units of production.\n\n## Key takeaway\nAutomotive supply chain teaches the definitive lesson in risk management — JIT minimises cost in normal times but safety stock prevents catastrophe in abnormal times, and the cost of failure dwarfs the savings of leanness.`},
+      {name:"Global Trade Compliance",detail:`## What is it?\nGlobal trade compliance ensures all cross-border goods movement complies with import and export regulations, customs requirements, trade agreements, and sanctions — using correct HS codes, valuation, origin rules, and documentation for every shipment.\n\n## Why it matters\nPost-Brexit, companies with pre-classified HS codes, established customs brokers, and automated declarations maintained delivery times — those without faced weeks of delays at Dover, £10,000+ demurrage per container, and perishable cargo losses.\n\n## Key takeaway\nGlobal trade compliance is invisible when working and catastrophically visible when it fails — cheaper to invest in proactively than to fix reactively when shipments are held at borders.`},
+      {name:"Incoterms & Customs Documentation",detail:`## What is it?\nIncoterms are standardised trade terms defining who bears responsibility for shipping costs, insurance, and risk at each stage of international transport — from EXW (buyer takes all risk) to DDP (seller responsible for everything including import duties).\n\n## Why it matters\nA UK importer on DDP terms had no visibility of ocean freight costs — when shipping rates tripled in 2021, the cost increase was built invisibly into product prices, revealing that Incoterm selection has direct P&L implications beyond just legal risk allocation.\n\n## Key takeaway\nIncoterms are strategic supply chain decisions, not standard contract clauses — they define where commercial risk sits, who controls logistics, and ultimately who absorbs the cost when things go wrong in international trade.`}
+    ],
+    vids:[{id:"O_3hPJiRFMI",t:"Retail & FMCG supply chain"},{id:"PCkbLWuEIeo",t:"Global trade & Incoterms explained"}]
+  }
+];
+
+const DIFF={
+  bg:{bg:"rgba(16,185,129,.11)",color:"#10b981"},
+  md:{bg:"rgba(217,119,6,.11)",color:"#d97706"},
+  adv:{bg:"rgba(239,68,68,.11)",color:"#ef4444"}
+};
+
+function diffLevel(name){
+  const n=name.toLowerCase();
+  if(n.includes('lstm')||n.includes('deep learning')||n.includes('transformer')||n.includes('probabilistic')||n.includes('meio')||n.includes('mip')||n.includes('blockchain')||n.includes('autonomous')||n.includes('digital twin')||n.includes('control tower')||n.includes('network optim')||n.includes('ibp')||n.includes('cold chain')||n.includes('global trade')||n.includes('simulation')||n.includes('srm')||n.includes('cost-to-serve'))return 'adv';
+  if(n.includes('what is')||n.includes('basics')||n.includes('overview')||n.includes('fundamentals')||n.includes('modes')||n.includes('fifo')||n.includes('cycle count')||n.includes('min-max')||n.includes('pick')||n.includes('rfq'))return 'bg';
+  return 'md';
+}
+
+function renderDetail(detail){
+  const lines=detail.split('\n');
+  let html='';
+  let inList=false;
+  for(const line of lines){
+    const t=line.trim();
+    if(!t){if(inList){html+='</ul>';inList=false;}continue;}
+    if(t.startsWith('## ')){
+      if(inList){html+='</ul>';inList=false;}
+      const txt=t.replace('## ','');
+      const isKt=txt.toLowerCase().includes('key takeaway');
+      if(isKt){html+=`<div class="td-callout"><strong>💡 Key takeaway:</strong> `;}
+      else{html+=`<div class="td-h2">${txt}</div>`;}
+    } else if(t.startsWith('- ')){
+      if(!inList){html+='<ul class="td-ul">';inList=true;}
+      html+=`<li>${t.slice(2)}</li>`;
+    } else {
+      if(inList){html+='</ul>';inList=false;}
+      if(html.endsWith('</strong> ')){html+=t+'</div>';}
+      else{html+=`<div class="td-p">${t}</div>`;}
+    }
+  }
+  if(inList)html+='</ul>';
+  return html;
+}
+
+function toggleTopic(si,ti){
+  const item=document.getElementById(`ti-${si}-${ti}`);
+  const isOpen=item.classList.contains('active');
+  document.querySelectorAll(`[id^="ti-${si}-"]`).forEach(el=>{if(el!==item)el.classList.remove('active');});
+  item.classList.toggle('active',!isOpen);
+}
+
+function toggleOverview(btn){
+  btn.closest('.sec-overview').classList.toggle('overview-open');
+  btn.querySelector('.ov-arr').textContent=btn.closest('.sec-overview').classList.contains('overview-open')?'▾':'▶';
+}
+
+function buildSection(sec,idx){
+  const topicsHTML=sec.topics.map((tp,ti)=>{
+    const dl=diffLevel(tp.name);
+    const ds=DIFF[dl];
+    const detailHTML=renderDetail(tp.detail);
+    return `<div class="topic-item" id="ti-${idx}-${ti}">
+      <button class="topic-btn" onclick="toggleTopic(${idx},${ti})">
+        <span class="t-dot" style="background:${sec.color}"></span>
+        <span class="t-name">${tp.name}</span>
+        <span class="t-diff" style="background:${ds.bg};color:${ds.color}">${dl==='bg'?'Beginner':dl==='adv'?'Advanced':'Intermediate'}</span>
+        <span class="t-arr">▶</span>
+      </button>
+      <div class="topic-detail">
+        <div class="td-content">${detailHTML}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const ovHTML=`<div class="sec-overview">
+    <div class="overview-toggle" onclick="toggleOverview(this)">
+      <span class="ov-arr">▶</span> Section overview & KPIs
+    </div>
+    <div class="overview-body">
+      <div class="ov-h">What is it?</div>
+      <div class="ov-p">${sec.overview.what}</div>
+      <div class="ov-h">Why it matters</div>
+      <div class="ov-p">${sec.overview.why}</div>
+      <div class="ov-h">Key concepts</div>
+      <ul class="td-ul" style="margin:.3rem 0 .6rem">${sec.overview.concepts.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <div class="ov-h">Key metrics / KPIs</div>
+      <div class="ov-kpi">${sec.overview.kpis.map(k=>`<span>${k}</span>`).join('')}</div>
+    </div>
+  </div>`;
+
+  const vidsHTML=sec.vids.map(v=>`<div class="vid-card">
+    <iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1" loading="lazy"
+      allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen title="${v.t}"></iframe>
+    <div class="vid-t">${v.t}</div>
+  </div>`).join('');
+
+  const div=document.createElement('div');
+  div.className='section-card';
+  div.dataset.search=(sec.title+' '+sec.topics.map(t=>t.name).join(' ')).toLowerCase();
+  div.innerHTML=`
+    <div class="section-header" onclick="this.closest('.section-card').classList.toggle('open')">
+      <div class="sec-num" style="background:${sec.cbg};color:${sec.color}">${String(idx+1).padStart(2,'0')}</div>
+      <div class="sec-tw">
+        <h2 class="section-title">${idx+1}. ${sec.title}
+          <span class="section-badge" style="background:${sec.cbg};color:${sec.color};border:1px solid ${sec.color}44">${sec.badge}</span>
+        </h2>
+        <div class="sec-sub">${sec.sub}</div>
+      </div>
+      <svg class="chev" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+      </svg>
+    </div>
+    <div class="sec-body">
+      <div class="sec-img">
+        <img src="${sec.img}" alt="${sec.title}" loading="lazy"/>
+        <div class="img-ov"></div>
+        <div class="img-cap">📷 ${sec.cap} — Unsplash</div>
+      </div>
+      ${ovHTML}
+      <div class="topics-list">
+        <div class="topics-label">📚 Topics — click to expand</div>
+        ${topicsHTML}
+      </div>
+      <div class="vid-section">
+        <div class="vid-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          Watch &amp; Learn
+        </div>
+        <div class="vid-grid">${vidsHTML}</div>
+      </div>
+    </div>`;
+  return div;
+}
+
+const container=document.getElementById('roadmapContainer');
+const sectionEls=[];
+SECTIONS.forEach((sec,i)=>{
+  const el=buildSection(sec,i);
+  container.appendChild(el);
+  sectionEls.push(el);
+});
+if(sectionEls[0])sectionEls[0].classList.add('open');
+
+document.getElementById('searchInput').addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  sectionEls.forEach(el=>{
+    const match=!q||el.dataset.search.includes(q);
+    el.style.display=match?'':'none';
+    if(q&&match)el.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
