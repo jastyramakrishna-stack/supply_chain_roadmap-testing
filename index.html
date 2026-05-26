@@ -91,10 +91,10 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 /* Banner */
 .sc-banner{position:relative;height:148px;overflow:hidden;flex-shrink:0}
 .sc-banner img{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block;transition:transform .55s,filter .4s}
-.sc-banner-ov{position:absolute;inset:0}
+
 .sc:hover .sc-banner img{transform:scale(1.06);filter:brightness(.72)}
 .sc-banner-num{position:absolute;top:10px;right:12px;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:rgba(255,255,255,.18);line-height:1;z-index:2;letter-spacing:-.04em}
-.sc-banner-bottom{position:absolute;bottom:0;left:0;right:0;height:48px;z-index:1}
+
 
 /* Card body */
 .sc-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column}
@@ -1600,9 +1600,9 @@ function buildGrid(data) {
       <div class="sc-top-bar" style="background:${accent}"></div>
       <div class="sc-banner">
         <img src="${img}" alt="" loading="lazy" style="filter:brightness(.52) saturate(.8)"/>
-        <div class="sc-banner-ov" style="background:linear-gradient(to top,rgba(255,255,255,1) 0%,rgba(255,255,255,0) 50%)"></div>
+        
         <div class="sc-banner-num">${String(realIdx+1).padStart(2,'0')}</div>
-        <div class="sc-banner-bottom" style="background:linear-gradient(to top,#fff 0%,transparent 100%)"></div>
+        
       </div>
       <div class="sc-body">
         <div class="sc-meta">
