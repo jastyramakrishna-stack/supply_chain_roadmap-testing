@@ -2737,6 +2737,7 @@ function buildGrid(data) {
 
 /* Drawer state */
 let curSection = null, curIndex = 0, curTopic = null;
+function _getSC(){ return { snap: TOPIC_SNAPS, img: TOPIC_IMAGES, sec: curSection }; }
 
 function openDrawer(section, index) {
   curSection = section; curIndex = index; curTopic = null;
@@ -2790,7 +2791,7 @@ function showTopicSnap(name, content) {
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
         <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
-        <button class="snap-expand-btn" data-topic="${name.replace(/"/g,'&quot;')}" onclick="var n=this.getAttribute('data-topic');openTopicModal(n,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'')" aria-label="Expand full topic view">
+        <button class="snap-expand-btn" data-topic="${name}"" onclick="var n=this.getAttribute('data-topic');openTopicModal(n,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'')" aria-label="Expand full topic view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </button>
       </div>
@@ -2885,36 +2886,39 @@ buildGrid(allData);
 
   window.openTopicModal = function(topicName, badge, badgeCls){
     if(!topicName) return;
-    var img  = (window.TOPIC_IMAGES && TOPIC_IMAGES[topicName]) || DEFAULT_IMG;
-    var snap = window.TOPIC_SNAPS  && TOPIC_SNAPS[topicName];
-    var sec  = window.curSection;
-    var raw  = sec && sec.content && sec.content.topics ? (sec.content.topics[topicName]||null) : null;
-    var html = raw ? md(raw) : '<p style="color:var(--text3);font-style:italic">Detailed content coming soon.</p>';
+    var sc   = _getSC();
+    var img  = sc.img[topicName] || DEFAULT_IMG;
+    var snap = sc.snap[topicName] || null;
+    var sec  = sc.sec;
+    var raw  = sec && sec.content && sec.content.topics
+               ? (sec.content.topics[topicName] || null) : null;
+    var html = raw ? md(raw)
+                   : '<p style="color:var(--text3);font-style:italic">Detailed content coming soon.</p>';
 
     imgEl.src = img.replace('w=560&h=200','w=1200&h=500');
     imgEl.alt = topicName;
-    h1El.textContent  = topicName;
-    badgeEl.textContent = badge||'';
-    badgeEl.className   = 'tmodal-badge-pill badge '+(badgeCls||'');
+    h1El.textContent    = topicName;
+    badgeEl.textContent = badge || '';
+    badgeEl.className   = 'tmodal-badge-pill badge ' + (badgeCls || '');
 
     var parts = [];
     if(snap){
       parts.push(
-        '<div class="tmodal-visual-card">'+
-          '<div class="tmodal-vis-lbl">'+
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>'+
-            snap.visLabel+
-          '</div>'+snap.visual+
-        '</div>'+
-        '<div class="tmodal-desc">'+snap.desc+'</div>'+
-        '<div class="tmodal-tkw">'+
-          '<span class="tmodal-tkw-lbl">Takeaway</span>'+
-          '<span class="tmodal-tkw-txt">'+snap.takeaway+'</span>'+
-        '</div>'
+        '<div class="tmodal-visual-card">'
+        + '<div class="tmodal-vis-lbl">'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>'
+        + snap.visLabel + '</div>'
+        + snap.visual   + '</div>'
+        + '<div class="tmodal-desc">' + snap.desc + '</div>'
+        + '<div class="tmodal-tkw">'
+        + '<span class="tmodal-tkw-lbl">Takeaway</span>'
+        + '<span class="tmodal-tkw-txt">' + snap.takeaway + '</span>'
+        + '</div>'
       );
     }
-    parts.push('<div class="tmodal-md">'+html+'</div>');
+    parts.push('<div class="tmodal-md">' + html + '</div>');
     bodyEl.innerHTML = parts.join('');
+
 
     modal.scrollTop = 0;
     centerer.scrollTop = 0;
