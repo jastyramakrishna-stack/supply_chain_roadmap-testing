@@ -497,6 +497,29 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
   </div>
 </div>
 
+<!-- Full-screen topic quick-view modal -->
+<div class="tmodal-wrap" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="tmodalH1" tabindex="-1">
+  <div class="tmodal-centerer" id="tmodalCenterer">
+    <div class="tmodal-box" id="tmodalBox">
+      <div class="tmodal-hero">
+        <img class="tmodal-hero-img" id="tmodalImg" src="" alt=""/>
+        <div class="tmodal-hero-grad"></div>
+        <button class="tmodal-x" id="tmodalX" type="button" aria-label="Close">&times;</button>
+        <div class="tmodal-hero-text">
+          <div class="tmodal-badge-pill badge" id="tmodalBadge"></div>
+          <div class="tmodal-h1" id="tmodalH1"></div>
+        </div>
+      </div>
+      <div class="tmodal-body" id="tmodalBody"></div>
+      <div class="tmodal-foot">
+        <span class="tmodal-foot-lbl">&#10022; Supply Chain Roadmap</span>
+        <button class="tmodal-foot-close" id="tmodalFootClose" type="button">Close &times;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
 const roadmapData = [
   {
@@ -2762,13 +2785,12 @@ function showTopicSnap(name, content) {
   const body = document.getElementById('drBody');
   const mdContent = content ? markdownToHtml(content) : `<h2>${name}</h2><p>Content coming soon.</p>`;
 
-  window._snapName = name;
   body.innerHTML = `
     <div class="snap">
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
         <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
-        <button class="snap-expand-btn" onclick="openTopicModal(window._snapName,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'')" aria-label="Expand full topic view">
+        <button class="snap-expand-btn" data-topic="${name.replace(/"/g,'&quot;')}" onclick="var n=this.getAttribute('data-topic');openTopicModal(n,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'')" aria-label="Expand full topic view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </button>
       </div>
@@ -2920,26 +2942,5 @@ buildGrid(allData);
 
 </script>
 
-<!-- Full-screen topic quick-view modal -->
-<div class="tmodal-wrap" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="tmodalH1" tabindex="-1">
-  <div class="tmodal-centerer" id="tmodalCenterer">
-    <div class="tmodal-box" id="tmodalBox">
-      <div class="tmodal-hero">
-        <img class="tmodal-hero-img" id="tmodalImg" src="" alt=""/>
-        <div class="tmodal-hero-grad"></div>
-        <button class="tmodal-x" id="tmodalX" type="button" aria-label="Close">&times;</button>
-        <div class="tmodal-hero-text">
-          <div class="tmodal-badge-pill badge" id="tmodalBadge"></div>
-          <div class="tmodal-h1" id="tmodalH1"></div>
-        </div>
-      </div>
-      <div class="tmodal-body" id="tmodalBody"></div>
-      <div class="tmodal-foot">
-        <span class="tmodal-foot-lbl">&#10022; Supply Chain Roadmap</span>
-        <button class="tmodal-foot-close" id="tmodalFootClose" type="button">Close &times;</button>
-      </div>
-    </div>
-  </div>
-</div>
 </body>
 </html>
