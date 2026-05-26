@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AI in Supply Chain — Supply Chain Roadmap</title>
+  <title>Replenishment Planning — Supply Chain Roadmap</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles.css" />
   <style>
-    :root{--page-accent:#0e7490;}
+    :root{--page-accent:#b45309;}
     body{background:#08111c;color:#e2e8f0;font-family:'Instrument Sans',sans-serif;margin:0;}
     .detail-hero{position:relative;height:320px;overflow:hidden;}
     .detail-hero img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.65)saturate(1.1);}
-    .detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,20,35,.9)0%,rgba(14,116,144,.35)100%);display:flex;align-items:flex-end;padding:2rem 2.5rem;}
+    .detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,20,35,.9)0%,rgba(180,83,9,.35)100%);display:flex;align-items:flex-end;padding:2rem 2.5rem;}
     .detail-hero-inner{display:flex;flex-direction:column;gap:.5rem;}
     .detail-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);}
     .detail-h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:800;color:#fff;margin:0;line-height:1.1;}
@@ -42,11 +42,11 @@
 <body>
 
 <div class="detail-hero">
-  <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&h=400&fit=crop&q=80&auto=format" alt="AI in Supply Chain" />
+  <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1200&h=400&fit=crop&q=80&auto=format" alt="Replenishment Planning" />
   <div class="detail-hero-overlay">
     <div class="detail-hero-inner">
-      <span class="detail-eyebrow">Modern Supply Chain</span>
-      <h1 class="detail-h1">AI in Supply Chain</h1>
+      <span class="detail-eyebrow">Operations</span>
+      <h1 class="detail-h1">Replenishment Planning</h1>
       <div class="detail-accent-bar"></div>
     </div>
   </div>
@@ -56,32 +56,32 @@
   <a href="../index.html" class="detail-back">← Back to Roadmap</a>
 
   <p style="color:#94a3b8;font-size:.95rem;line-height:1.7;margin-bottom:2rem;">
-    AI and ML in supply chain use algorithms trained on historical data to automate routine decisions, improve demand forecasts, predict supply risks, and optimise operations continuously — shifting supply chains from reactive to predictive.
+    Replenishment planning determines when to order more stock and how much to order — triggering purchase orders automatically when inventory falls to a calculated reorder point. Poor replenishment is the root cause of both stockouts and overstock.
   </p>
 
   <div class="detail-stat-row">
-    <div class="detail-stat"><span class="detail-stat-val">80%</span><span class="detail-stat-lab">orders autonomous</span></div>
-    <div class="detail-stat"><span class="detail-stat-val">40%↓</span><span class="detail-stat-lab">delivery time</span></div>
-    <div class="detail-stat"><span class="detail-stat-val">24/7</span><span class="detail-stat-lab">AI never sleeps</span></div>
+    <div class="detail-stat"><span class="detail-stat-val">ROP</span><span class="detail-stat-lab">reorder point</span></div>
+    <div class="detail-stat"><span class="detail-stat-val">MOQ</span><span class="detail-stat-lab">min order qty</span></div>
+    <div class="detail-stat"><span class="detail-stat-val">VMI</span><span class="detail-stat-lab">vendor-managed</span></div>
   </div>
 
   <div class="detail-section">
     <div class="detail-section-title">Core Concepts</div>
     <div class="detail-grid">
-      <div class="detail-card"><div class="detail-card-icon">🤖</div><div class="detail-card-title">Demand Sensing</div><div class="detail-card-desc">AI detecting real-time demand signals from POS, social, and weather data.</div></div>
-      <div class="detail-card"><div class="detail-card-icon">🔮</div><div class="detail-card-title">Predictive Risk</div><div class="detail-card-desc">ML models forecasting supplier failures and disruptions before they occur.</div></div>
-      <div class="detail-card"><div class="detail-card-icon">⚡</div><div class="detail-card-title">Autonomous Ordering</div><div class="detail-card-desc">AI generating purchase orders without planner involvement — flagging exceptions only.</div></div>
-      <div class="detail-card"><div class="detail-card-icon">🧠</div><div class="detail-card-title">NLP & Computer Vision</div><div class="detail-card-desc">AI reading supplier documents, inspecting goods, and processing invoices automatically.</div></div>
+      <div class="detail-card"><div class="detail-card-icon">🔁</div><div class="detail-card-title">Reorder Point (ROP)</div><div class="detail-card-desc">Statistical trigger: lead time demand + safety stock = when to replenish.</div></div>
+      <div class="detail-card"><div class="detail-card-icon">📦</div><div class="detail-card-title">Min/Max Systems</div><div class="detail-card-desc">Simple two-level policies setting minimum and maximum inventory bounds.</div></div>
+      <div class="detail-card"><div class="detail-card-icon">🤝</div><div class="detail-card-title">VMI</div><div class="detail-card-desc">Vendor-Managed Inventory — supplier monitors stock and initiates replenishment.</div></div>
+      <div class="detail-card"><div class="detail-card-icon">📊</div><div class="detail-card-title">DRP</div><div class="detail-card-desc">Distribution Requirements Planning — multi-echelon replenishment across network.</div></div>
     </div>
   </div>
 
   <div class="detail-image-block">
-    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=900&h=280&fit=crop&q=75&auto=format" alt="AI in Supply Chain visual" />
-    <div class="detail-image-caption">AI-powered supply chain — autonomous decisions at machine speed</div>
+    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&h=280&fit=crop&q=75&auto=format" alt="Replenishment Planning visual" />
+    <div class="detail-image-caption">Replenishment flows — matching supply signals to inventory positions</div>
   </div>
 
   <div class="detail-quote">
-    AI does not replace supply chain planners — it eliminates routine decisions so planners can focus on the exceptions, relationships, and strategic choices that genuinely require human judgment.
+    P&G's VMI programme with Walmart reduced Walmart's inventory by 30% while improving P&G's forecast accuracy by 40%.
   </div>
 
   <a href="../index.html" class="detail-back" style="margin-top:2.5rem;display:inline-flex;">← Back to Roadmap</a>
