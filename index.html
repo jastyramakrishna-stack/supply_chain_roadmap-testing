@@ -179,9 +179,9 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 
 /* Topic snapshot panel */
 .snap{background:#fff;display:flex;flex-direction:column}
-.snap-banner{height:160px;position:relative;overflow:hidden;flex-shrink:0}
-.snap-banner img{width:100%;height:100%;object-fit:cover;display:block}
-.snap-banner-ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(248,250,252,1) 100%)}
+.snap-banner{height:180px;position:relative;overflow:hidden;flex-shrink:0;border-radius:0}
+.snap-banner img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(.88) saturate(1.05)}
+.snap-banner-ov{position:absolute;inset:0}
 .snap-banner-lbl{position:absolute;bottom:8px;left:14px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5)}
 .snap-visual{margin:0 14px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:12px}
 .snap-vis-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
@@ -1395,6 +1395,15 @@ const TOPIC_IMAGES = {
   'Warehouse Operations Overview':'https://images.unsplash.com/photo-1586528116493-3db78f8db5e0?w=560&h=200&fit=crop&q=75&auto=format',
   'Transportation Modes & Networks':'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?w=560&h=200&fit=crop&q=75&auto=format',
   'Supply Chain KPIs (OTIF, Fill Rate, Inventory Turns)':'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=560&h=200&fit=crop&q=75&auto=format',
+  // Tools & Systems — bright, thematic, high-contrast
+  'ERP Systems (SAP MM/PP/SD, Oracle SCM)':'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=560&h=200&fit=crop&q=85&auto=format',
+  'Advanced Planning Systems (SAP APO, IBP, Blue Yonder)':'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=560&h=200&fit=crop&q=85&auto=format',
+  'Warehouse Management Systems (WMS)':'https://images.unsplash.com/photo-1586528116493-3db78f8db5e0?w=560&h=200&fit=crop&q=85&auto=format',
+  'Transportation Management Systems (TMS)':'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?w=560&h=200&fit=crop&q=85&auto=format',
+  'Inventory Optimization Tools':'https://images.unsplash.com/photo-1553413077-190dd305871c?w=560&h=200&fit=crop&q=85&auto=format',
+  'Forecasting Tools (Forecast Pro, SAP IBP, Anaplan)':'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=560&h=200&fit=crop&q=85&auto=format',
+  'Power BI / Tableau for Analytics':'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=560&h=200&fit=crop&q=85&auto=format',
+  'Excel Advanced (Pivot, Solver, VBA)':'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=560&h=200&fit=crop&q=85&auto=format',
 };
 const DEFAULT_IMG = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=560&h=200&fit=crop&q=75&auto=format';
 
@@ -1504,6 +1513,93 @@ const TOPIC_SNAPS = {
     desc:'Supply chain KPIs quantify service, cost, and efficiency performance — the scorecard that aligns the whole organisation around shared outcomes.',
     takeaway:'What gets measured gets managed — the right KPI set makes the invisible visible and drives the right behaviours.'
   },
+  'ERP Systems (SAP MM/PP/SD, Oracle SCM)': {
+    visLabel:'ERP: one system, all functions',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#1e3a8a">FI</span><span class="flow-t"><b>Finance</b> — GL, AP, AR, cost centres, controlling</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#1e3a8a">MM</span><span class="flow-t"><b>Materials Mgmt</b> — procurement, goods receipt, inventory</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#1e3a8a">PP</span><span class="flow-t"><b>Production</b> — MRP, work orders, capacity planning</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#1e3a8a">SD</span><span class="flow-t"><b>Sales &amp; Delivery</b> — orders, pricing, despatch, billing</span></div>
+    </div>`,
+    desc:'ERP integrates finance, procurement, production, and logistics into a single platform — eliminating data silos and enabling end-to-end supply chain visibility.',
+    takeaway:"Nestle's SAP rollout across 80 countries standardised 900 processes and unlocked $700M+ in annual procurement savings."
+  },
+  'Advanced Planning Systems (SAP APO, IBP, Blue Yonder)': {
+    visLabel:'APS vs ERP planning capability',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Demand fcst</span><div class="bar-track"><div class="bar-fill" style="width:92%;background:#4c1d95"></div></div><span class="bar-val">APS</span></div>
+      <div class="bar-row"><span class="bar-lbl">Supply opt.</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:#4c1d95"></div></div><span class="bar-val">APS</span></div>
+      <div class="bar-row"><span class="bar-lbl">Scenario sim</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:#4c1d95"></div></div><span class="bar-val">APS</span></div>
+      <div class="bar-row"><span class="bar-lbl">ERP alone</span><div class="bar-track"><div class="bar-fill" style="width:30%;background:#cbd5e1"></div></div><span class="bar-val">Basic</span></div>
+    </div>`,
+    desc:'APS tools like SAP IBP and Blue Yonder run sophisticated algorithms on top of ERP data for demand forecasting, supply optimisation, and what-if scenario planning.',
+    takeaway:'APS without clean ERP master data is like a race car on a muddy track — the engine exists, but it cannot perform.'
+  },
+  'Warehouse Management Systems (WMS)': {
+    visLabel:'WMS: receive → store → pick → ship',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">1</span><span class="flow-t"><b>Receive</b> — inbound ASN, dock scheduling, quality gate</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">2</span><span class="flow-t"><b>Put-away</b> — directed slotting, RFID/barcode confirm</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">3</span><span class="flow-t"><b>Pick</b> — wave planning, pick path optimisation, RF scan</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">4</span><span class="flow-t"><b>Despatch</b> — pack, label, load, proof of delivery</span></div>
+    </div>`,
+    desc:'A WMS manages and optimises all warehouse operations in real time — directing every physical movement with barcode or RFID-confirmed transactions.',
+    takeaway:"Ocado's WMS coordinates 1,000+ robots to pick a 50-item grocery order in under 5 minutes at 99.9% accuracy."
+  },
+  'Transportation Management Systems (TMS)': {
+    visLabel:'TMS impact: route optimisation ROI',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#134e4a">10–15%</div><div class="si-l">Freight cost saving</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">100M</div><div class="si-l">Miles saved — UPS ORION</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">95%+</div><div class="si-l">On-time delivery rate</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">Real-time</div><div class="si-l">Shipment visibility</div></div>
+    </div>`,
+    desc:'A TMS plans, executes, and optimises freight movement — carrier selection, route planning, booking, tracking, and invoice validation against contracted rates.',
+    takeaway:"UPS's ORION TMS avoids left turns to save 100M miles and 10M gallons of fuel annually — pure algorithm-driven efficiency."
+  },
+  'Inventory Optimization Tools': {
+    visLabel:'Optimisation levers and impact',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Stock reduction</span><div class="bar-track"><div class="bar-fill" style="width:78%;background:#78350f"></div></div><span class="bar-val">20–30%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Fill rate gain</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#78350f"></div></div><span class="bar-val">2–5%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Safety stock cut</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:#78350f"></div></div><span class="bar-val">15–25%</span></div>
+    </div>`,
+    desc:'Inventory optimisation tools use probabilistic modelling to set safety stock, reorder points, and order quantities that minimise total cost while meeting service level targets.',
+    takeaway:'Manual safety stock rules add 20–40% more inventory than statistically optimised parameters — pure excess cost.'
+  },
+  'Forecasting Tools (Forecast Pro, SAP IBP, Anaplan)': {
+    visLabel:'Tool capability comparison',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="font-size:11px;color:#4c1d95">Forecast Pro</div><div class="si-l">Best accuracy, SME-friendly</div></div>
+      <div class="si"><div class="si-v" style="font-size:11px;color:#1e3a8a">SAP IBP</div><div class="si-l">ERP-native, enterprise scale</div></div>
+      <div class="si"><div class="si-v" style="font-size:11px;color:#065f46">Anaplan</div><div class="si-l">Connected planning platform</div></div>
+      <div class="si"><div class="si-v" style="font-size:11px;color:#134e4a">Blue Yonder</div><div class="si-l">AI-native, autonomous</div></div>
+    </div>`,
+    desc:'Dedicated forecasting tools combine automatic model selection, ML-powered baseline generation, collaborative override workflow, and accuracy tracking — all integrated with ERP.',
+    takeaway:'The best forecasting tool is the one your team will actually use — usability and ERP integration matter as much as algorithms.'
+  },
+  'Power BI / Tableau for Analytics': {
+    visLabel:'Analytics value delivered',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Reporting time</span><div class="bar-track"><div class="bar-fill" style="width:90%;background:#881337"></div></div><span class="bar-val">−90%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Decision speed</span><div class="bar-track"><div class="bar-fill" style="width:70%;background:#065f46"></div></div><span class="bar-val">+3×</span></div>
+      <div class="bar-row"><span class="bar-lbl">Exception mgmt</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:#1e3a8a"></div></div><span class="bar-val">+80%</span></div>
+    </div>`,
+    desc:'Power BI and Tableau connect to ERP, WMS, and TMS data to create interactive dashboards that make OTIF, forecast accuracy, inventory, and cost performance visible and actionable.',
+    takeaway:'A FMCG company reduced weekly reporting from 2 days to 2 hours with Power BI — redirecting analyst time to exception management.'
+  },
+  'Excel Advanced (Pivot, Solver, VBA)': {
+    visLabel:'Excel SC toolkit',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#165534">PQ</span><span class="flow-t"><b>Power Query</b> — ETL, clean and transform ERP exports</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#165534">PT</span><span class="flow-t"><b>Pivot Tables</b> — slice inventory, OTIF, spend by dimension</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#165534">SV</span><span class="flow-t"><b>Solver</b> — LP optimisation: EOQ, allocation, routing</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#165534">VB</span><span class="flow-t"><b>VBA Macros</b> — automate reports, data refresh, alerts</span></div>
+    </div>`,
+    desc:'Advanced Excel bridges the gap between ERP raw data and operational decisions — the most widely used supply chain analysis tool across every industry and company size.',
+    takeaway:'Excel fluency is non-negotiable in supply chain — even when enterprise tools exist, decisions still get made in spreadsheets.'
+  },
+
 };
 
 /* SVG icons per topic keyword */
@@ -1680,8 +1776,7 @@ function showTopicSnap(name, content) {
     <div class="snap">
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
-        <div class="snap-banner-ov"></div>
-        <div class="snap-banner-lbl">${name}</div>
+        <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
       </div>
       ${snap ? `
       <div style="padding:12px 14px 0">
