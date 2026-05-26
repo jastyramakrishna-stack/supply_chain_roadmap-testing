@@ -255,170 +255,122 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 
 /* ── Full-screen topic quick-view modal ─────────────────────── */
-.tmodal{
-  position:fixed;inset:0;z-index:600;
-  display:none;align-items:flex-start;justify-content:center;
+.tmodal-wrap{
+  position:fixed;inset:0;z-index:700;
+  visibility:hidden;
   background:rgba(10,22,40,0);
-  pointer-events:none;
-  transition:background .3s ease;
-  overflow-y:auto;
-  padding:24px 16px 40px;
+  transition:background .3s ease,visibility 0s linear .34s;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
-.tmodal.open{
-  display:flex;
-  background:rgba(10,22,40,.82);
-  pointer-events:all;
-  backdrop-filter:blur(4px);
+.tmodal-wrap.tm-open{
+  visibility:visible;
+  background:rgba(10,22,40,.84);
+  backdrop-filter:blur(5px);
+  transition:background .3s ease,visibility 0s linear 0s;
+}
+.tmodal-centerer{
+  display:flex;min-height:100%;
+  align-items:flex-start;justify-content:center;
+  padding:28px 16px 48px;
 }
 .tmodal-box{
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  width:100%;
-  max-width:720px;
-  position:relative;
-  transform:translateY(32px);
-  opacity:0;
-  transition:transform .32s cubic-bezier(.22,1,.36,1), opacity .28s ease;
-  box-shadow:0 32px 80px rgba(0,0,0,.4);
-  margin:auto;
+  background:#fff;border-radius:14px;overflow:hidden;
+  width:100%;max-width:720px;position:relative;
+  transform:translateY(40px) scale(.97);opacity:0;
+  transition:transform .34s cubic-bezier(.22,1,.36,1),opacity .28s ease;
+  box-shadow:0 28px 72px rgba(0,0,0,.38);
 }
-.tmodal.open .tmodal-box{
-  transform:translateY(0);
-  opacity:1;
+.tmodal-wrap.tm-open .tmodal-box{transform:translateY(0) scale(1);opacity:1}
+.tmodal-hero{position:relative;height:240px;overflow:hidden;flex-shrink:0}
+.tmodal-hero-img{
+  width:100%;height:100%;object-fit:cover;object-position:center 38%;
+  display:block;filter:brightness(.82) saturate(1.08);
 }
-/* Close button — always on top, fixed inside box */
-.tmodal-close{
-  position:absolute;
-  top:12px;right:12px;
-  z-index:10;
-  width:36px;height:36px;
-  border-radius:50%;
-  background:rgba(10,22,40,.65);
-  border:2px solid rgba(255,255,255,.35);
-  color:#fff;
-  font-size:18px;
-  line-height:1;
-  cursor:pointer;
+.tmodal-hero-grad{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(10,22,40,.08) 0%,rgba(10,22,40,.72) 100%);
+}
+.tmodal-x{
+  position:absolute;top:12px;right:12px;z-index:20;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(10,22,40,.7);border:2px solid rgba(255,255,255,.45);
+  color:#fff;font-size:22px;line-height:1;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:background .15s, transform .15s;
-  backdrop-filter:blur(6px);
-  flex-shrink:0;
+  transition:background .15s,transform .15s;
+  backdrop-filter:blur(6px);touch-action:manipulation;
 }
-.tmodal-close:hover{background:rgba(10,22,40,.92);transform:scale(1.08)}
-.tmodal-close:active{transform:scale(.96)}
-/* Hero image */
-.tmodal-img{
-  width:100%;height:240px;
-  object-fit:cover;object-position:center 38%;
-  display:block;
-  filter:brightness(.88) saturate(1.05);
-}
-/* Gradient over hero image */
-.tmodal-img-overlay{
-  position:absolute;
-  top:0;left:0;right:0;height:240px;
-  background:linear-gradient(to bottom, rgba(10,22,40,.15) 0%, rgba(10,22,40,.6) 100%);
-  pointer-events:none;
-}
-/* Title block over image */
-.tmodal-hero-text{
-  position:absolute;
-  bottom:16px;left:18px;right:60px;
-}
-.tmodal-badge{
+.tmodal-x:hover{background:rgba(10,22,40,.95);transform:scale(1.08)}
+.tmodal-x:active{transform:scale(.94)}
+.tmodal-hero-text{position:absolute;bottom:14px;left:18px;right:62px}
+.tmodal-badge-pill{
   font-family:'JetBrains Mono',monospace;
   font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
-  padding:3px 9px;border-radius:4px;
-  display:inline-block;margin-bottom:6px;
-  border-width:1.5px;border-style:solid;
+  padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:7px;
 }
-.tmodal-title{
+.tmodal-h1{
   font-family:'Syne',sans-serif;
-  font-size:clamp(16px,4vw,22px);
-  font-weight:800;color:#fff;line-height:1.15;
-  text-shadow:0 1px 4px rgba(0,0,0,.5);
+  font-size:clamp(15px,3.5vw,21px);font-weight:800;
+  color:#fff;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,.55);
 }
-/* Body */
-.tmodal-body{padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px}
-/* KPI visual card */
-.tmodal-visual{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:12px 14px;
-}
+.tmodal-body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:14px}
+.tmodal-visual-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
 .tmodal-vis-lbl{
-  font-family:'JetBrains Mono',monospace;
-  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:10px;
-  display:flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text3);
+  margin-bottom:10px;display:flex;align-items:center;gap:6px;
 }
-/* Desc block */
-.tmodal-desc{
-  font-size:13px;color:var(--text2);line-height:1.72;
-}
-/* Takeaway */
+.tmodal-desc{font-size:13px;color:var(--text2);line-height:1.72}
 .tmodal-tkw{
-  display:flex;gap:8px;
-  background:#fffbeb;
-  border-left:3px solid var(--amber);
-  border-radius:0 6px 6px 0;
-  padding:9px 11px;
+  display:flex;gap:8px;background:#fffbeb;
+  border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:9px 11px;
 }
 .tmodal-tkw-lbl{
-  font-family:'JetBrains Mono',monospace;
-  font-size:8px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--amber);flex-shrink:0;margin-top:2px;
+  font-family:'JetBrains Mono',monospace;font-size:8px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--amber);flex-shrink:0;margin-top:2px;
 }
 .tmodal-tkw-txt{font-size:12px;color:var(--text2);font-style:italic;line-height:1.6}
-/* Full markdown content */
-.tmodal-content h2{
+.tmodal-md h2{
   font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
-  color:var(--text);margin:0 0 5px;padding-bottom:4px;
-  border-bottom:1px solid var(--border);
+  color:var(--text);margin:0 0 5px;padding-bottom:4px;border-bottom:1px solid var(--border);
 }
-.tmodal-content h2:not(:first-child){margin-top:14px}
-.tmodal-content p{margin:3px 0;font-size:12px;color:var(--text2)}
-.tmodal-content ul{list-style:none;margin:4px 0 8px;padding:0}
-.tmodal-content li{
-  position:relative;padding:3px 0 3px 12px;
-  font-size:12px;color:var(--text2);
-  border-bottom:1px solid #f1f5f9;
+.tmodal-md h2:not(:first-child){margin-top:14px}
+.tmodal-md p{margin:3px 0;font-size:12px;color:var(--text2);line-height:1.7}
+.tmodal-md ul{list-style:none;margin:4px 0 8px;padding:0}
+.tmodal-md li{
+  position:relative;padding:3px 0 3px 13px;
+  font-size:12px;color:var(--text2);border-bottom:1px solid #f1f5f9;
 }
-.tmodal-content li:last-child{border-bottom:none}
-.tmodal-content li::before{content:'›';position:absolute;left:0;color:var(--amber);font-weight:700;font-size:14px;line-height:1.3}
-.tmodal-content strong{color:var(--text);font-weight:600}
-/* Footer */
-.tmodal-footer{
-  padding:10px 20px 14px;
-  border-top:1px solid var(--border);
+.tmodal-md li:last-child{border-bottom:none}
+.tmodal-md li::before{content:'›';position:absolute;left:0;color:var(--amber);font-weight:700;font-size:14px;line-height:1.3}
+.tmodal-md strong{color:var(--text);font-weight:600}
+.tmodal-foot{
+  padding:11px 20px 14px;border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
-.tmodal-footer-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.06em}
-.tmodal-close-btn{
+.tmodal-foot-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.06em}
+.tmodal-foot-close{
   font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;
-  padding:6px 14px;border-radius:6px;
-  border:1.5px solid var(--navy);background:var(--navy);color:#fff;
-  cursor:pointer;transition:background .15s;
+  padding:7px 16px;border-radius:6px;border:1.5px solid var(--navy);
+  background:var(--navy);color:#fff;cursor:pointer;transition:background .15s;touch-action:manipulation;
 }
-.tmodal-close-btn:hover{background:var(--navy2)}
-/* Expand icon on snap banner */
+.tmodal-foot-close:hover{background:var(--navy2)}
 .snap-expand-btn{
-  position:absolute;top:8px;right:8px;
+  position:absolute;top:8px;right:8px;z-index:5;
   width:30px;height:30px;border-radius:7px;
-  background:rgba(10,22,40,.6);
-  border:1.5px solid rgba(255,255,255,.3);
-  color:#fff;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s, transform .15s;
-  backdrop-filter:blur(4px);
-  z-index:5;
+  background:rgba(10,22,40,.6);border:1.5px solid rgba(255,255,255,.35);
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .15s,transform .15s;
+  backdrop-filter:blur(4px);touch-action:manipulation;
 }
-.snap-expand-btn:hover{background:rgba(10,22,40,.88);transform:scale(1.05)}
-.snap-expand-btn svg{width:14px;height:14px;flex-shrink:0}
+.snap-expand-btn:hover{background:rgba(10,22,40,.88);transform:scale(1.06)}
+.snap-expand-btn svg{width:14px;height:14px;flex-shrink:0;pointer-events:none}
 @media(max-width:640px){
-  .tmodal{padding:12px 8px 32px}
+  .tmodal-centerer{padding:12px 8px 36px}
+  .tmodal-hero{height:180px}
+  .tmodal-h1{font-size:15px}
+  .tmodal-body{padding:14px 14px 18px}
+}
+
   .tmodal-img{height:180px}
   .tmodal-img-overlay{height:180px}
   .tmodal-title{font-size:16px}
@@ -2810,12 +2762,13 @@ function showTopicSnap(name, content) {
   const body = document.getElementById('drBody');
   const mdContent = content ? markdownToHtml(content) : `<h2>${name}</h2><p>Content coming soon.</p>`;
 
+  window._snapName = name;
   body.innerHTML = `
     <div class="snap">
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
         <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
-        <button class="snap-expand-btn" onclick="openTopicModal(curSection.items[curTopic],curSection.badge,getBadgeCls(curSection.badge))" aria-label="Expand full topic view">
+        <button class="snap-expand-btn" onclick="openTopicModal(window._snapName,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'')" aria-label="Expand full topic view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </button>
       </div>
@@ -2883,135 +2836,108 @@ buildProgress();
 buildGrid(allData);
 
 /* ── Full-screen topic quick-view modal ── */
-var _tmodalLockCount = 0;
+/* ── Topic quick-view modal ── */
+(function(){
+  var modal    = document.getElementById('topicModal');
+  var imgEl    = document.getElementById('tmodalImg');
+  var h1El     = document.getElementById('tmodalH1');
+  var badgeEl  = document.getElementById('tmodalBadge');
+  var bodyEl   = document.getElementById('tmodalBody');
+  var btnX     = document.getElementById('tmodalX');
+  var btnFoot  = document.getElementById('tmodalFootClose');
+  var centerer = document.getElementById('tmodalCenterer');
 
-function openTopicModal(topicName, sectionBadge, sectionBadgeCls) {
-  var img     = TOPIC_IMAGES[topicName] || DEFAULT_IMG;
-  var snap    = TOPIC_SNAPS[topicName];
-  var section = curSection;
-  var topicContent = section && section.content && section.content.topics
-                     ? (section.content.topics[topicName] || null) : null;
-  var mdContent = topicContent ? markdownToHtml(topicContent)
-                               : '<p style="color:var(--text3);font-style:italic">Full content coming soon.</p>';
-
-  // Set hero
-  document.getElementById('tmodalImg').src = img.replace('w=560&h=200','w=1200&h=480');
-  document.getElementById('tmodalImg').alt = topicName;
-  document.getElementById('tmodalTitle').textContent = topicName;
-
-  // Badge
-  var badgeEl = document.getElementById('tmodalBadge');
-  badgeEl.textContent = sectionBadge || '';
-  badgeEl.className = 'tmodal-badge badge ' + (sectionBadgeCls || '');
-
-  // Build body
-  var bodyParts = [];
-
-  if (snap) {
-    // KPI visual
-    bodyParts.push(
-      '<div class="tmodal-visual">' +
-        '<div class="tmodal-vis-lbl">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>' +
-          snap.visLabel +
-        '</div>' +
-        snap.visual +
-      '</div>'
-    );
-    // Description
-    bodyParts.push(
-      '<div class="tmodal-desc">' + snap.desc + '</div>'
-    );
-    // Takeaway
-    bodyParts.push(
-      '<div class="tmodal-tkw">' +
-        '<span class="tmodal-tkw-lbl">Takeaway</span>' +
-        '<span class="tmodal-tkw-txt">' + snap.takeaway + '</span>' +
-      '</div>'
-    );
+  function md(text){
+    if(!text) return '';
+    return text
+      .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+      .replace(/^### (.+)$/gm,'<h3 style="font-size:12px;font-weight:700;color:var(--text);margin:10px 0 4px">$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/^[-•*] (.+)$/gm,'<li>$1</li>')
+      .replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>')
+      .replace(/<\/ul>\s*<ul>/g,'')
+      .replace(/\n{2,}/g,'<br><br>')
+      .replace(/^(?!<[hul]|<br)(.+)$/gm,'<p>$1</p>')
+      .replace(/<p><\/p>/g,'');
   }
 
-  // Full markdown content
-  bodyParts.push('<div class="tmodal-content">' + mdContent + '</div>');
+  window.openTopicModal = function(topicName, badge, badgeCls){
+    if(!topicName) return;
+    var img  = (window.TOPIC_IMAGES && TOPIC_IMAGES[topicName]) || DEFAULT_IMG;
+    var snap = window.TOPIC_SNAPS  && TOPIC_SNAPS[topicName];
+    var sec  = window.curSection;
+    var raw  = sec && sec.content && sec.content.topics ? (sec.content.topics[topicName]||null) : null;
+    var html = raw ? md(raw) : '<p style="color:var(--text3);font-style:italic">Detailed content coming soon.</p>';
 
-  document.getElementById('tmodalBody').innerHTML = bodyParts.join('');
+    imgEl.src = img.replace('w=560&h=200','w=1200&h=500');
+    imgEl.alt = topicName;
+    h1El.textContent  = topicName;
+    badgeEl.textContent = badge||'';
+    badgeEl.className   = 'tmodal-badge-pill badge '+(badgeCls||'');
 
-  // Scroll modal to top
-  var modal = document.getElementById('topicModal');
-  modal.scrollTop = 0;
-  document.getElementById('topicModalBox').scrollTop = 0;
-
-  // Open with animation — use rAF so transition fires
-  modal.style.display = 'flex';
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      modal.classList.add('open');
-    });
-  });
-  document.body.style.overflow = 'hidden';
-
-  // Trap focus to close button
-  setTimeout(function() {
-    var closeBtn = document.getElementById('tmodalCloseTop');
-    if (closeBtn) closeBtn.focus();
-  }, 320);
-}
-
-function closeTopicModal() {
-  var modal = document.getElementById('topicModal');
-  modal.classList.remove('open');
-  // Hide after transition completes
-  setTimeout(function() {
-    modal.style.display = 'none';
-  }, 320);
-  document.body.style.overflow = '';
-}
-
-// Wire close buttons
-document.getElementById('tmodalCloseTop').addEventListener('click', closeTopicModal);
-document.getElementById('tmodalCloseBottom').addEventListener('click', closeTopicModal);
-
-// Click backdrop to close (only if clicking the backdrop itself)
-document.getElementById('topicModal').addEventListener('click', function(e) {
-  if (e.target === this) closeTopicModal();
-});
-
-// ESC key closes modal
-document.addEventListener('keydown', function(ev) {
-  if (ev.key === 'Escape') {
-    var modal = document.getElementById('topicModal');
-    if (modal.classList.contains('open')) {
-      closeTopicModal();
-      ev.preventDefault();
+    var parts = [];
+    if(snap){
+      parts.push(
+        '<div class="tmodal-visual-card">'+
+          '<div class="tmodal-vis-lbl">'+
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>'+
+            snap.visLabel+
+          '</div>'+snap.visual+
+        '</div>'+
+        '<div class="tmodal-desc">'+snap.desc+'</div>'+
+        '<div class="tmodal-tkw">'+
+          '<span class="tmodal-tkw-lbl">Takeaway</span>'+
+          '<span class="tmodal-tkw-txt">'+snap.takeaway+'</span>'+
+        '</div>'
+      );
     }
+    parts.push('<div class="tmodal-md">'+html+'</div>');
+    bodyEl.innerHTML = parts.join('');
+
+    modal.scrollTop = 0;
+    centerer.scrollTop = 0;
+    modal.classList.add('tm-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ btnX.focus(); }, 60);
+  };
+
+  function doClose(){
+    modal.classList.remove('tm-open');
+    document.body.style.overflow = '';
   }
-});
-document.addEventListener('keydown', function(e2) {
-  if (e2.key === 'Escape') closeImgModal();
-});
+
+  btnX.addEventListener('click',    doClose);
+  btnFoot.addEventListener('click', doClose);
+  modal.addEventListener('click', function(e){
+    if(e.target===modal || e.target===centerer) doClose();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && modal.classList.contains('tm-open')){
+      doClose(); e.preventDefault();
+    }
+  });
+}());
+
 </script>
 
 <!-- Full-screen topic quick-view modal -->
-<div class="tmodal" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="tmodalTitle">
-  <div class="tmodal-box" id="topicModalBox">
-    <!-- Hero image section -->
-    <div style="position:relative">
-      <img class="tmodal-img" id="tmodalImg" src="" alt=""/>
-      <div class="tmodal-img-overlay"></div>
-      <button class="tmodal-close" id="tmodalCloseTop" aria-label="Close topic view">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-      <div class="tmodal-hero-text">
-        <span class="tmodal-badge badge" id="tmodalBadge"></span>
-        <div class="tmodal-title" id="tmodalTitle"></div>
+<div class="tmodal-wrap" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="tmodalH1" tabindex="-1">
+  <div class="tmodal-centerer" id="tmodalCenterer">
+    <div class="tmodal-box" id="tmodalBox">
+      <div class="tmodal-hero">
+        <img class="tmodal-hero-img" id="tmodalImg" src="" alt=""/>
+        <div class="tmodal-hero-grad"></div>
+        <button class="tmodal-x" id="tmodalX" type="button" aria-label="Close">&times;</button>
+        <div class="tmodal-hero-text">
+          <div class="tmodal-badge-pill badge" id="tmodalBadge"></div>
+          <div class="tmodal-h1" id="tmodalH1"></div>
+        </div>
       </div>
-    </div>
-    <!-- Body -->
-    <div class="tmodal-body" id="tmodalBody"></div>
-    <!-- Footer -->
-    <div class="tmodal-footer">
-      <span class="tmodal-footer-lbl">✦ Supply Chain Roadmap</span>
-      <button class="tmodal-close-btn" id="tmodalCloseBottom">Close ✕</button>
+      <div class="tmodal-body" id="tmodalBody"></div>
+      <div class="tmodal-foot">
+        <span class="tmodal-foot-lbl">&#10022; Supply Chain Roadmap</span>
+        <button class="tmodal-foot-close" id="tmodalFootClose" type="button">Close &times;</button>
+      </div>
     </div>
   </div>
 </div>
