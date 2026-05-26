@@ -253,6 +253,23 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 /* RESPONSIVE */
 @media(max-width:640px){.grid{grid-template-columns:1fr}.hero-h1{font-size:34px}.drawer{width:100vw}.nav-link:not(.nav-li,.act){display:none}}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+/* ── Image expand modal ─────────────────────────────────────── */
+.img-modal{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(10,22,40,0);pointer-events:none;transition:background .28s ease}
+.img-modal.open{background:rgba(10,22,40,.88);pointer-events:all}
+.img-modal-box{background:#fff;border-radius:12px;overflow:hidden;max-width:680px;width:calc(100vw - 32px);transform:scale(.92) translateY(12px);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s ease;box-shadow:0 24px 64px rgba(0,0,0,.35)}
+.img-modal.open .img-modal-box{transform:scale(1) translateY(0);opacity:1}
+.img-modal-img{width:100%;height:260px;object-fit:cover;object-position:center;display:block;filter:brightness(.9) saturate(1.05)}
+.img-modal-body{padding:14px 16px 16px}
+.img-modal-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.3}
+.img-modal-caption{font-size:12px;color:var(--text3);line-height:1.6}
+.img-modal-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;backdrop-filter:blur(4px)}
+.img-modal-close:hover{background:rgba(255,255,255,.35)}
+.img-modal-inner{position:relative}
+/* Expand icon on snap banner */
+.snap-expand-btn{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:6px;background:rgba(10,22,40,.55);border:1px solid rgba(255,255,255,.2);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;backdrop-filter:blur(3px);z-index:5}
+.snap-expand-btn:hover{background:rgba(10,22,40,.8)}
+.snap-expand-btn svg{width:13px;height:13px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -1444,6 +1461,42 @@ const TOPIC_IMAGES = {
   'Demand Variability (Standard Deviation)':'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=560&h=200&fit=crop&q=85&auto=format',
   'Forecast Error Metrics (MAD, MSE, RMSE)':'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=560&h=200&fit=crop&q=85&auto=format',
   'Lifecycle Stage (New, Mature, Decline)':'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=560&h=200&fit=crop&q=85&auto=format',
+  // Replenishment Planning (section 5)
+  'Reorder Point (ROP) Method':'https://images.unsplash.com/photo-1553413077-190dd305871c?w=560&h=200&fit=crop&q=85&auto=format',
+  'Min-Max Planning':'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=560&h=200&fit=crop&q=85&auto=format',
+  'Periodic Review Systems':'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=560&h=200&fit=crop&q=85&auto=format',
+  'Continuous Review Systems':'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=560&h=200&fit=crop&q=85&auto=format',
+  'Safety Stock Calculation':'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=560&h=200&fit=crop&q=85&auto=format',
+  'Economic Order Quantity (EOQ)':'https://images.unsplash.com/photo-1565108852926-ef8db4a93754?w=560&h=200&fit=crop&q=85&auto=format',
+  'Multi-Echelon Inventory Optimization (MEIO)':'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?w=560&h=200&fit=crop&q=85&auto=format',
+  'Distribution Requirements Planning (DRP)':'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=560&h=200&fit=crop&q=85&auto=format',
+  // Analytics & Optimization (section 7)
+  'Linear Programming (LP)':'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=560&h=200&fit=crop&q=85&auto=format',
+  'Mixed Integer Programming (MIP)':'https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=560&h=200&fit=crop&q=85&auto=format',
+  'Network Optimization Models':'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?w=560&h=200&fit=crop&q=85&auto=format',
+  'Simulation Models (Arena, AnyLogic)':'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=560&h=200&fit=crop&q=85&auto=format',
+  'Cost-to-Serve Modeling':'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=560&h=200&fit=crop&q=85&auto=format',
+  'Scenario Planning & Sensitivity Analysis':'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=560&h=200&fit=crop&q=85&auto=format',
+  'Routing Optimization (TSP, VRP)':'https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?w=560&h=200&fit=crop&q=85&auto=format',
+  'Inventory Optimization Algorithms':'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=560&h=200&fit=crop&q=85&auto=format',
+  // Modern Supply Chain (section 8)
+  'AI & Machine Learning in Supply Chain':'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=560&h=200&fit=crop&q=85&auto=format',
+  'Digital Twins':'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=560&h=200&fit=crop&q=85&auto=format',
+  'Control Towers & Real-Time Visibility':'https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=560&h=200&fit=crop&q=85&auto=format',
+  'IoT in Logistics':'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=560&h=200&fit=crop&q=85&auto=format',
+  'Blockchain for Traceability':'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=560&h=200&fit=crop&q=85&auto=format',
+  'Autonomous Planning Systems':'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=560&h=200&fit=crop&q=85&auto=format',
+  'Robotics & Automation in Warehousing':'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=560&h=200&fit=crop&q=85&auto=format',
+  'Sustainability & Green Supply Chain':'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=560&h=200&fit=crop&q=85&auto=format',
+  // Industry Knowledge (section 9)
+  'Retail Supply Chain':'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=560&h=200&fit=crop&q=85&auto=format',
+  'E-commerce Fulfillment':'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=560&h=200&fit=crop&q=85&auto=format',
+  'Manufacturing Supply Chain':'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=560&h=200&fit=crop&q=85&auto=format',
+  'Pharma & Cold Chain Logistics':'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?w=560&h=200&fit=crop&q=85&auto=format',
+  'FMCG Supply Chain':'https://images.unsplash.com/photo-1553413077-190dd305871c?w=560&h=200&fit=crop&q=85&auto=format',
+  'Automotive Supply Chain':'https://images.unsplash.com/photo-1493238792000-8113da705763?w=560&h=200&fit=crop&q=85&auto=format',
+  'Global Trade Compliance':'https://images.unsplash.com/photo-1494412519320-aa613dfb7738?w=560&h=200&fit=crop&q=85&auto=format',
+  'Incoterms & Customs Documentation':'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=560&h=200&fit=crop&q=85&auto=format',
 };
 const DEFAULT_IMG = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=560&h=200&fit=crop&q=75&auto=format';
 
@@ -2060,6 +2113,378 @@ const TOPIC_SNAPS = {
     takeaway:'Failing to adjust the forecast method for lifecycle stage is one of the most common causes of both overstock at launch and write-offs at end-of-life.'
   },
 
+  // ── SECTION 5: Replenishment Planning ───────────────────────
+  'Reorder Point (ROP) Method': {
+    visLabel:'ROP formula & trigger logic',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#065f46">D</div><div class="si-l">Avg daily demand units</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">LT</div><div class="si-l">Supplier lead time days</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">SS</div><div class="si-l">Safety stock buffer</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">ROP</div><div class="si-l">= (D × LT) + SS</div></div>
+    </div>
+    <div class="flow" style="margin-top:8px">
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">↓</span><span class="flow-t">Stock falls to ROP level → order triggered automatically</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">↓</span><span class="flow-t">Order arrives before safety stock is depleted</span></div>
+    </div>`,
+    desc:'The Reorder Point method triggers a replenishment order when stock falls to a pre-calculated level — covering average demand during lead time plus a safety buffer.',
+    takeaway:'An ROP without safety stock will stock out 50% of replenishment cycles — always add the buffer.'
+  },
+  'Min-Max Planning': {
+    visLabel:'Min-Max band logic',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Max level</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#065f46"></div></div><span class="bar-val">Order-up-to</span></div>
+      <div class="bar-row"><span class="bar-lbl">Current</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:#1e3a8a"></div></div><span class="bar-val">On hand</span></div>
+      <div class="bar-row"><span class="bar-lbl">Min level</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:#881337"></div></div><span class="bar-val">Trigger point</span></div>
+    </div>
+    <div style="margin-top:8px;font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace">↓ Stock hits Min → order to bring back to Max</div>`,
+    desc:'Min-Max planning sets a minimum trigger level and a maximum order-up-to level — when stock falls to Min, an order is raised to restore stock to Max.',
+    takeaway:'Min-Max is simple and widely used — but requires frequent review as demand changes, or Min/Max boundaries become stale.'
+  },
+  'Periodic Review Systems': {
+    visLabel:'Periodic vs continuous review',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">T</span><span class="flow-t"><b>Fixed review period</b> — weekly, monthly, quarterly</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">R</span><span class="flow-t"><b>Review stock level</b> — compare to target level (S)</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">O</span><span class="flow-t"><b>Order quantity</b> — S minus current stock on hand</span></div>
+    </div>
+    <div class="sg" style="margin-top:8px">
+      <div class="si"><div class="si-v" style="color:#065f46">S</div><div class="si-l">Order-up-to level</div></div>
+      <div class="si"><div class="si-v" style="color:#1e3a8a">T+LT</div><div class="si-l">Review + lead time horizon</div></div>
+    </div>`,
+    desc:'Periodic review systems check inventory at fixed intervals and order enough to bring stock up to a target level — simple to administer but carries more average inventory than continuous review.',
+    takeaway:'Periodic review suits slow-moving or low-value items — continuous review is justified when item value makes frequent monitoring worthwhile.'
+  },
+  'Continuous Review Systems': {
+    visLabel:'Continuous vs periodic trade-off',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#065f46">Real-time</div><div class="si-l">Stock monitored continuously</div></div>
+      <div class="si"><div class="si-v" style="color:#1e3a8a">Lower SS</div><div class="si-l">Less safety stock needed</div></div>
+      <div class="si"><div class="si-v" style="color:#78350f">Higher cost</div><div class="si-l">Monitoring &amp; system cost</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">AX items</div><div class="si-l">Best suited SKU type</div></div>
+    </div>`,
+    desc:'Continuous review systems monitor stock levels in real time and trigger a fixed order quantity (Q) whenever stock falls to the reorder point — combining precision with automation.',
+    takeaway:'Continuous review reduces safety stock by 15–25% vs periodic review — the monitoring cost is usually justified for high-value, fast-moving items.'
+  },
+  'Safety Stock Calculation': {
+    visLabel:'Safety stock formula inputs',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#065f46">z</div><div class="si-l">Service level factor</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">σD</div><div class="si-l">Demand std deviation</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">σLT</div><div class="si-l">Lead time std deviation</div></div>
+      <div class="si"><div class="si-v" style="color:#1e3a8a">LT</div><div class="si-l">Avg lead time days</div></div>
+    </div>
+    <div style="margin-top:8px;background:#fff;border:1px solid var(--border);border-radius:5px;padding:8px;text-align:center;font-size:11px;color:var(--text2)">SS = z × √(LT·σD² + D²·σLT²)</div>`,
+    desc:'Statistical safety stock combines demand variability and lead time variability into a single buffer — sized to meet a target service level with the minimum possible inventory.',
+    takeaway:'Rule-of-thumb safety stock (e.g. 2 weeks cover) carries 20–40% more inventory than the statistical formula at the same service level.'
+  },
+  'Economic Order Quantity (EOQ)': {
+    visLabel:'EOQ: balancing two cost curves',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#065f46">D</div><div class="si-l">Annual demand units</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">S</div><div class="si-l">Order/setup cost (£)</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">H</div><div class="si-l">Annual holding cost (£)</div></div>
+      <div class="si"><div class="si-v" style="color:#1e3a8a">EOQ</div><div class="si-l">= √(2DS / H)</div></div>
+    </div>
+    <div class="bars" style="margin-top:8px">
+      <div class="bar-row"><span class="bar-lbl">Holding cost</span><div class="bar-track"><div class="bar-fill" style="width:70%;background:#881337"></div></div><span class="bar-val">↑ with Q</span></div>
+      <div class="bar-row"><span class="bar-lbl">Order cost</span><div class="bar-track"><div class="bar-fill" style="width:70%;background:#065f46"></div></div><span class="bar-val">↓ with Q</span></div>
+    </div>`,
+    desc:'EOQ identifies the order quantity that minimises total inventory cost — balancing the cost of ordering (which falls with larger orders) against holding cost (which rises with larger orders).',
+    takeaway:'EOQ is a starting point, not an answer — always adjust for MOQs, container sizes, shelf life, and supplier constraints.'
+  },
+  'Multi-Echelon Inventory Optimization (MEIO)': {
+    visLabel:'Multi-echelon network structure',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">L1</span><span class="flow-t"><b>Supplier</b> — raw material &amp; component stock</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">L2</span><span class="flow-t"><b>Central DC</b> — regional distribution hub</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">L3</span><span class="flow-t"><b>Regional DC</b> — country or zone-level stock</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">L4</span><span class="flow-t"><b>Store / customer</b> — final point of consumption</span></div>
+    </div>`,
+    desc:'MEIO optimises inventory simultaneously across all levels of the supply network — central warehouse, regional DCs, and stores — rather than optimising each node independently.',
+    takeaway:'Single-echelon optimisation at each node creates duplicate safety stock — MEIO typically reduces total network inventory by 15–25%.'
+  },
+  'Distribution Requirements Planning (DRP)': {
+    visLabel:'DRP: demand pull through the network',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">1</span><span class="flow-t"><b>Store forecasts</b> — local demand signals collected</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">2</span><span class="flow-t"><b>Regional DC</b> — aggregates store replenishment needs</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">3</span><span class="flow-t"><b>Central DC</b> — plans inbound from suppliers</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">4</span><span class="flow-t"><b>Supplier schedule</b> — time-phased production plan</span></div>
+    </div>`,
+    desc:'DRP extends MRP logic to the distribution network — pulling demand signals from the most downstream nodes upstream to create time-phased replenishment plans at every echelon.',
+    takeaway:'DRP eliminates the bullwhip effect by replacing reactive ordering with a demand-driven, network-wide plan.'
+  },
+
+  // ── SECTION 7: Analytics & Optimization ─────────────────────
+  'Linear Programming (LP)': {
+    visLabel:'LP in supply chain — common uses',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">OBJ</span><span class="flow-t"><b>Objective</b> — minimise cost or maximise service</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">C1</span><span class="flow-t"><b>Capacity</b> — plant, warehouse, vehicle limits</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">C2</span><span class="flow-t"><b>Demand</b> — all customer requirements must be met</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">C3</span><span class="flow-t"><b>Budget</b> — total spend within financial limits</span></div>
+    </div>`,
+    desc:'Linear programming finds the optimal allocation of resources — production quantities, flows, or inventory — subject to constraints such as capacity, demand, and cost limits.',
+    takeaway:'LP assumes linear relationships — always validate this assumption before trusting the solution in production settings.'
+  },
+  'Mixed Integer Programming (MIP)': {
+    visLabel:'MIP vs LP — when integers matter',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#881337">Yes/No</div><div class="si-l">Facility open or closed</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">0/1</div><div class="si-l">Binary route assignment</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">Whole</div><div class="si-l">Integer vehicle/truck count</div></div>
+      <div class="si"><div class="si-v" style="color:#4c1d95">Harder</div><div class="si-l">NP-hard, needs solver</div></div>
+    </div>`,
+    desc:'MIP extends LP by allowing variables to take integer or binary values — essential for network design decisions like facility location, vehicle routing, and make-or-buy choices.',
+    takeaway:'MIP can solve problems LP cannot — but computation time grows exponentially; always set time limits and accept near-optimal solutions for large instances.'
+  },
+  'Network Optimization Models': {
+    visLabel:'Network design decision variables',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">?</span><span class="flow-t"><b>How many</b> DCs, plants, or hubs to operate</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">?</span><span class="flow-t"><b>Where</b> to locate each facility</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">?</span><span class="flow-t"><b>Which customers</b> each DC should serve</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">?</span><span class="flow-t"><b>What flows</b> along each arc in the network</span></div>
+    </div>`,
+    desc:'Network optimization models determine the optimal supply chain footprint — number, location, and allocation of facilities to minimise total cost while meeting service level constraints.',
+    takeaway:'A network design exercise typically reveals 10–20% cost reduction opportunity — most networks are designed once and never re-optimised.'
+  },
+  'Simulation Models (Arena, AnyLogic)': {
+    visLabel:'Simulation types in SC',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#881337">DES</div><div class="si-l">Discrete event simulation</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">ABS</div><div class="si-l">Agent-based simulation</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">SD</div><div class="si-l">System dynamics (Bullwhip)</div></div>
+      <div class="si"><div class="si-v" style="color:#4c1d95">Monte Carlo</div><div class="si-l">Probabilistic risk analysis</div></div>
+    </div>`,
+    desc:'Supply chain simulation models replicate the dynamic behaviour of the network — testing operational changes, disruption scenarios, and capacity decisions without touching live operations.',
+    takeaway:'Simulation is the only way to test a system before you change it — the ROI on avoiding one bad redesign decision pays for years of simulation investment.'
+  },
+  'Cost-to-Serve Modeling': {
+    visLabel:'Cost-to-serve breakdown',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Logistics</span><div class="bar-track"><div class="bar-fill" style="width:35%;background:#881337"></div></div><span class="bar-val">35%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Warehousing</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:#78350f"></div></div><span class="bar-val">25%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Order mgmt</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:#4c1d95"></div></div><span class="bar-val">20%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Returns</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:#1e3a8a"></div></div><span class="bar-val">15%</span></div>
+    </div>`,
+    desc:'Cost-to-serve modeling allocates all supply chain costs to individual customers, channels, or SKUs — revealing the true profitability of each relationship beyond gross margin.',
+    takeaway:'The customer with the highest revenue is rarely the most profitable — cost-to-serve reveals which relationships destroy value.'
+  },
+  'Scenario Planning & Sensitivity Analysis': {
+    visLabel:'Scenario planning framework',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">B</span><span class="flow-t"><b>Base case</b> — most likely outcome, plan around this</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#065f46">U</span><span class="flow-t"><b>Upside</b> — demand spike, capacity constraint test</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#78350f">D</span><span class="flow-t"><b>Downside</b> — demand drop, cash preservation response</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#4c1d95">S</span><span class="flow-t"><b>Sensitivity</b> — which assumptions matter most?</span></div>
+    </div>`,
+    desc:'Scenario planning evaluates supply chain performance across multiple futures — testing the robustness of decisions against demand, cost, and disruption uncertainty.',
+    takeaway:'A plan that only works in the base case is not a plan — it is a hope. Scenarios force you to design for range, not a single point.'
+  },
+  'Routing Optimization (TSP, VRP)': {
+    visLabel:'Route optimisation impact',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#881337">10–15%</div><div class="si-l">Typical mileage reduction</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">TSP</div><div class="si-l">Single vehicle, all stops</div></div>
+      <div class="si"><div class="si-v" style="color:#1e3a8a">VRP</div><div class="si-l">Fleet routing with constraints</div></div>
+      <div class="si"><div class="si-v" style="color:#4c1d95">100M</div><div class="si-l">Miles saved — UPS ORION</div></div>
+    </div>`,
+    desc:'Vehicle routing optimisation finds the lowest-cost set of delivery routes for a fleet of vehicles — minimising distance, time, or fuel while respecting capacity and time-window constraints.',
+    takeaway:'Avoiding left turns saved UPS 100M miles and 10M gallons of fuel annually — routing optimisation is one of the highest-ROI logistics investments.'
+  },
+  'Inventory Optimization Algorithms': {
+    visLabel:'Algorithm selection by problem type',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">SS</span><span class="flow-t"><b>Safety stock</b> — probabilistic, newsvendor model</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">EOQ</span><span class="flow-t"><b>Order quantity</b> — classic or stochastic EOQ</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">MEIO</span><span class="flow-t"><b>Network stock</b> — echelon safety stock algorithm</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">ML</div><span class="flow-t"><b>Demand-driven</b> — RL agents, gradient methods</span></div>
+    </div>`,
+    desc:'Inventory optimisation algorithms determine the mathematically optimal stock levels — from classical EOQ and newsvendor models to modern machine-learning approaches.',
+    takeaway:'The right algorithm depends on demand pattern, lead time structure, and network complexity — no single method fits all inventory problems.'
+  },
+
+  // ── SECTION 8: Modern Supply Chain ───────────────────────────
+  'AI & Machine Learning in Supply Chain': {
+    visLabel:'AI use cases by SC function',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">D</span><span class="flow-t"><b>Demand</b> — ML forecasting, causal models, NLP signals</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">S</span><span class="flow-t"><b>Supply</b> — autonomous replenishment, supplier risk AI</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">L</span><span class="flow-t"><b>Logistics</b> — route optimisation, dynamic pricing</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">W</span><span class="flow-t"><b>Warehouse</b> — computer vision, pick path AI</span></div>
+    </div>`,
+    desc:'AI and ML are transforming every supply chain function — from demand forecasting and autonomous replenishment to supplier risk monitoring and warehouse robotics.',
+    takeaway:'AI augments the planner — it handles volume and pattern recognition while humans handle judgment, exceptions, and relationships.'
+  },
+  'Digital Twins': {
+    visLabel:'Digital twin value chain',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">1</span><span class="flow-t"><b>Replicate</b> — real-time virtual copy of physical SC</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">2</span><span class="flow-t"><b>Simulate</b> — test changes without live impact</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">3</span><span class="flow-t"><b>Predict</b> — forecast disruption before it happens</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">4</span><span class="flow-t"><b>Optimise</b> — prescribe best response in real time</span></div>
+    </div>`,
+    desc:'A digital twin is a continuously updated virtual replica of the physical supply chain — used for simulation, disruption response, and optimisation without touching live operations.',
+    takeaway:'Digital twins let you make mistakes virtually — testing a warehouse redesign or network change before committing capital.'
+  },
+  'Control Towers & Real-Time Visibility': {
+    visLabel:'Control tower data feeds',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#134e4a">ERP</div><div class="si-l">Orders, inventory, production</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">TMS</div><div class="si-l">Shipment tracking, ETAs</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">WMS</div><div class="si-l">Warehouse events, stock</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">API</div><div class="si-l">Supplier portals, carriers</div></div>
+    </div>`,
+    desc:'Supply chain control towers aggregate real-time data from across the network — using AI-powered exception management to alert planners to risks before they become customer service failures.',
+    takeaway:'Visibility without action is just surveillance — a control tower must combine data aggregation with decision-support to deliver value.'
+  },
+  'IoT in Logistics': {
+    visLabel:'IoT sensor applications',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">T</span><span class="flow-t"><b>Temperature</b> — cold chain monitoring, pharma compliance</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">L</span><span class="flow-t"><b>Location</b> — GPS tracking, geofencing alerts</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">H</span><span class="flow-t"><b>Humidity</b> — food safety, electronics protection</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">S</span><span class="flow-t"><b>Shock/tilt</b> — fragile goods handling compliance</span></div>
+    </div>`,
+    desc:'IoT sensors embedded in goods, vehicles, and facilities provide real-time environmental and location data — enabling proactive exception management and compliance verification.',
+    takeaway:'IoT converts the supply chain from a series of snapshots into a continuous live stream — fundamentally changing what is possible in monitoring and response.'
+  },
+  'Blockchain for Traceability': {
+    visLabel:'Blockchain in SC — key properties',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#134e4a">Immutable</div><div class="si-l">Records cannot be altered</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">Distributed</div><div class="si-l">No single point of failure</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">Transparent</div><div class="si-l">All parties see same data</div></div>
+      <div class="si"><div class="si-v" style="color:#134e4a">Smart</div><div class="si-l">Auto-execute contract rules</div></div>
+    </div>`,
+    desc:'Blockchain creates an immutable shared ledger for tracking goods from origin to consumer — enabling provenance verification, anti-counterfeiting, and multi-party trust without a central authority.',
+    takeaway:"Walmart reduced the time to trace contaminated lettuce from 7 days to 2 seconds using blockchain — that speed saves lives in a food safety crisis."
+  },
+  'Autonomous Planning Systems': {
+    visLabel:'Autonomy levels in SC planning',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">L1</span><span class="flow-t"><b>Automated</b> — rule-based, human monitors exceptions</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">L2</span><span class="flow-t"><b>Assisted</b> — AI recommends, human approves</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">L3</span><span class="flow-t"><b>Semi-autonomous</b> — AI acts, human reviews exceptions</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#134e4a">L4</span><span class="flow-t"><b>Autonomous</b> — AI plans and executes end-to-end</span></div>
+    </div>`,
+    desc:'Autonomous planning systems use AI to execute supply chain decisions — from replenishment orders to production schedules — with minimal human intervention.',
+    takeaway:'Most companies are at L1–L2 today — L4 autonomy requires data quality, model trust, and regulatory clarity that few organisations have achieved.'
+  },
+  'Robotics & Automation in Warehousing': {
+    visLabel:'Robotics ROI benchmarks',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#134e4a">400+</div><div class="si-l">Lines picked per hour (robot)</div></div>
+      <div class="si"><div class="si-v" style="color:#1e3a8a">80</div><div class="si-l">Lines per hour (manual)</div></div>
+      <div class="si"><div class="si-v" style="color:#065f46">99.9%</div><div class="si-l">Pick accuracy with robotics</div></div>
+      <div class="si"><div class="si-v" style="color:#78350f">2–4yr</div><div class="si-l">Typical payback period</div></div>
+    </div>`,
+    desc:'Warehouse robots — AMRs, AS/RS systems, robotic arms — automate goods movement, picking, and sortation — increasing throughput, accuracy, and operating hours without labour constraints.',
+    takeaway:"Ocado's robot grid picks a 50-item grocery order in 5 minutes — human pickers take 2 hours. Robotics is not incremental; it is transformational."
+  },
+  'Sustainability & Green Supply Chain': {
+    visLabel:'Scope 3 emissions: SC is 70%+ of impact',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Scope 3</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:#065f46"></div></div><span class="bar-val">70%+ total</span></div>
+      <div class="bar-row"><span class="bar-lbl">Transport</span><div class="bar-track"><div class="bar-fill" style="width:35%;background:#1e3a8a"></div></div><span class="bar-val">~35%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Packaging</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:#4c1d95"></div></div><span class="bar-val">~20%</span></div>
+      <div class="bar-row"><span class="bar-lbl">Supplier mfg</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#881337"></div></div><span class="bar-val">~40%</span></div>
+    </div>`,
+    desc:'Green supply chain management reduces environmental impact across sourcing, production, transportation, and disposal — increasingly driven by regulation, customer expectations, and cost efficiency.',
+    takeaway:"For most companies, 70%+ of carbon emissions sit in Scope 3 — which means they sit in the supply chain. You cannot hit net zero without your suppliers."
+  },
+
+  // ── SECTION 9: Industry Knowledge ────────────────────────────
+  'Retail Supply Chain': {
+    visLabel:'Retail SC key metrics',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#881337">98%+</div><div class="si-l">On-shelf availability target</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">12–15×</div><div class="si-l">Fast fashion inventory turns</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">2 wk</div><div class="si-l">Zara replenishment cycle</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">Cross-dock</div><div class="si-l">No storage — direct despatch</div></div>
+    </div>`,
+    desc:'Retail supply chains balance rapid replenishment, seasonal variability, promotional spikes, and tight shelf availability KPIs — with margin pressure from both cost and competitive pricing.',
+    takeaway:"Zara's competitive advantage is entirely supply chain — 2-week design-to-shelf vs the industry's 6-month calendar is a strategy, not an operation."
+  },
+  'E-commerce Fulfillment': {
+    visLabel:'E-com fulfillment KPIs',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">D+0</span><span class="flow-t"><b>Same-day</b> — premium tier, urban micro-fulfilment</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">D+1</span><span class="flow-t"><b>Next-day</b> — Amazon Prime standard, customer expectation</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">D+2</span><span class="flow-t"><b>Standard</b> — 48hr delivery, most retailers</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">RTN</span><span class="flow-t"><b>Returns</b> — 20–30% return rate, reverse logistics cost</span></div>
+    </div>`,
+    desc:"E-commerce fulfilment demands single-unit picking, rapid despatch, and seamless returns handling — Amazon's Prime service has reset consumer expectations across the entire market.",
+    takeaway:'E-commerce return rates of 20–30% make reverse logistics a major cost and sustainability challenge — free returns are never actually free.'
+  },
+  'Manufacturing Supply Chain': {
+    visLabel:'Manufacturing SC complexity drivers',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#881337">BOM</div><div class="si-l">100s–1000s of components</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">MRP</div><div class="si-l">Multi-level explosion needed</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">OEE</div><div class="si-l">Equipment efficiency KPI</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">JIT</div><div class="si-l">Zero buffer — supplier reliability critical</div></div>
+    </div>`,
+    desc:'Manufacturing supply chains manage complex multi-level BOMs, production scheduling, capacity constraints, and inbound material synchronisation — a disruption anywhere cascades everywhere.',
+    takeaway:"Toyota's JIT system requires near-perfect supplier reliability — a single component late can stop a production line within hours."
+  },
+  'Pharma & Cold Chain Logistics': {
+    visLabel:'Cold chain temperature bands',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">-80°C</span><span class="flow-t"><b>Ultra-cold</b> — mRNA vaccines (Pfizer/BioNTech)</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">-20°C</span><span class="flow-t"><b>Frozen</b> — biologics, plasma products</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">2–8°C</span><span class="flow-t"><b>Refrigerated</b> — most vaccines, insulin</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">15–25°C</span><span class="flow-t"><b>Ambient</b> — most oral drugs, controlled room temp</span></div>
+    </div>`,
+    desc:'Pharmaceutical cold chain logistics maintains precise temperature conditions from manufacture to patient — with full traceability, regulatory compliance, and zero tolerance for excursions.',
+    takeaway:"A single temperature excursion can destroy a batch worth millions — cold chain integrity is both a compliance and patient safety issue."
+  },
+  'FMCG Supply Chain': {
+    visLabel:'FMCG supply chain characteristics',
+    visual:`<div class="sg">
+      <div class="si"><div class="si-v" style="color:#881337">High vol</div><div class="si-l">Millions of units daily</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">Promo</div><div class="si-l">30–40% of volume promotional</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">Short SL</div><div class="si-l">Days to weeks shelf life</div></div>
+      <div class="si"><div class="si-v" style="color:#881337">VMI</div><div class="si-l">Vendor-managed inventory common</div></div>
+    </div>`,
+    desc:'FMCG supply chains handle high volumes of short-shelf-life products with intense promotional activity — requiring agile replenishment, collaborative retailer relationships, and tight waste management.',
+    takeaway:'In FMCG, promotions can triple demand in a week — the supply chain that cannot respond loses not just the sale but the retailer relationship.'
+  },
+  'Automotive Supply Chain': {
+    visLabel:'Automotive SC: why JIT is critical',
+    visual:`<div class="bars">
+      <div class="bar-row"><span class="bar-lbl">Components</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#881337"></div></div><span class="bar-val">30,000+</span></div>
+      <div class="bar-row"><span class="bar-lbl">Tier 1 suppliers</span><div class="bar-track"><div class="bar-fill" style="width:60%;background:#78350f"></div></div><span class="bar-val">~200</span></div>
+      <div class="bar-row"><span class="bar-lbl">Line stop cost</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:#4c1d95"></div></div><span class="bar-val">£1M+/hr</span></div>
+      <div class="bar-row"><span class="bar-lbl">JIT window</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:#065f46"></div></div><span class="bar-val">2–4 hr</span></div>
+    </div>`,
+    desc:'Automotive supply chains manage 30,000+ components per vehicle across multi-tier supplier networks — delivered JIT to assembly lines where a 2-hour delay can cost over £1M in lost production.',
+    takeaway:'The 2021 semiconductor shortage halted automotive production globally — a $210B loss from a single component category.'
+  },
+  'Global Trade Compliance': {
+    visLabel:'Compliance framework elements',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">HS</span><span class="flow-t"><b>HS codes</b> — harmonised tariff classification system</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">RoO</span><span class="flow-t"><b>Rules of origin</b> — where goods were actually made</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">SAN</span><span class="flow-t"><b>Sanctions</b> — restricted parties &amp; embargoed countries</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">AEO</span><span class="flow-t"><b>AEO status</b> — trusted trader, faster customs clearance</span></div>
+    </div>`,
+    desc:'Global trade compliance ensures all cross-border movements meet customs, tariff, sanctions, and export control requirements — a single classification error can delay shipments and trigger penalties.',
+    takeaway:'HS code misclassification is one of the most common and costly compliance errors — a wrong digit can mean 15% extra duty on every shipment.'
+  },
+  'Incoterms & Customs Documentation': {
+    visLabel:'Key Incoterms risk transfer points',
+    visual:`<div class="flow">
+      <div class="flow-row"><span class="flow-n" style="color:#881337">EXW</span><span class="flow-t"><b>Ex Works</b> — buyer takes risk at seller's factory gate</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">FOB</span><span class="flow-t"><b>Free On Board</b> — risk transfers at port of loading</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">CIF</span><span class="flow-t"><b>Cost, Insurance, Freight</b> — seller covers ocean transit</span></div>
+      <div class="flow-row"><span class="flow-n" style="color:#881337">DDP</span><span class="flow-t"><b>Delivered Duty Paid</b> — seller bears all risk &amp; duty</span></div>
+    </div>`,
+    desc:'Incoterms define at which point in the journey risk and cost transfer from seller to buyer — a critical commercial and supply chain decision that affects insurance, logistics control, and landed cost.',
+    takeaway:'Incoterm selection is a strategic SC decision — DDP vs FOB changes who controls logistics, who absorbs cost volatility, and who takes the hit when things go wrong.'
+  },
+
 };
 
 /* SVG icons per topic keyword */
@@ -2156,9 +2581,10 @@ function buildGrid(data) {
       <div class="sc-top-bar" style="background:${accent}"></div>
       <div class="sc-banner">
         <img src="${img}" alt="" loading="lazy" style="filter:brightness(.52) saturate(.8)"/>
-        
         <div class="sc-banner-num">${String(realIdx+1).padStart(2,'0')}</div>
-        
+        <button class="snap-expand-btn" onclick="event.stopPropagation();openImgModal('${img.replace('w=900&h=300','w=1400&h=600')}','${section.title}','${section.badge||''} · ${section.items.length} topics')" aria-label="Expand image for ${section.title}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </button>
       </div>
       <div class="sc-body">
         <div class="sc-meta">
@@ -2237,6 +2663,9 @@ function showTopicSnap(name, content) {
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
         <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
+        <button class="snap-expand-btn" onclick="openImgModal('${img.replace('w=560&h=200','w=1200&h=500')}','${name.replace(/'/g,'\\'+'\'')}','${snap ? snap.desc.replace(/'/g,'\\'+'\''): name}')" aria-label="Expand image for ${name}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </button>
       </div>
       ${snap ? `
       <div style="padding:12px 14px 0">
@@ -2300,6 +2729,41 @@ document.getElementById('searchInput').addEventListener('input', e => {
 allData = roadmapData;
 buildProgress();
 buildGrid(allData);
+
+/* ── Image expand modal JS ── */
+function openImgModal(src, title, caption) {
+  var modal = document.getElementById('imgModal');
+  document.getElementById('imgModalImg').src = src;
+  document.getElementById('imgModalTitle').textContent = title;
+  document.getElementById('imgModalCaption').textContent = caption || '';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeImgModal() {
+  document.getElementById('imgModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('imgModalClose').addEventListener('click', closeImgModal);
+document.getElementById('imgModal').addEventListener('click', function(e) {
+  if (e.target === this) closeImgModal();
+});
+document.addEventListener('keydown', function(e2) {
+  if (e2.key === 'Escape') closeImgModal();
+});
 </script>
+
+<!-- Image expand modal -->
+<div class="img-modal" id="imgModal" role="dialog" aria-modal="true" aria-label="Expanded image view">
+  <div class="img-modal-box" id="imgModalBox">
+    <div class="img-modal-inner">
+      <img class="img-modal-img" id="imgModalImg" src="" alt=""/>
+      <button class="img-modal-close" id="imgModalClose" aria-label="Close image">✕</button>
+    </div>
+    <div class="img-modal-body">
+      <div class="img-modal-title" id="imgModalTitle"></div>
+      <div class="img-modal-caption" id="imgModalCaption"></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
