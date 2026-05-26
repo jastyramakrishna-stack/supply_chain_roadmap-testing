@@ -182,7 +182,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 .snap-banner{height:180px;position:relative;overflow:hidden;flex-shrink:0;border-radius:0}
 .snap-banner img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(.88) saturate(1.05)}
 .snap-banner-ov{position:absolute;inset:0}
-
+.snap-banner-lbl{position:absolute;bottom:8px;left:14px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5)}
 .snap-visual{margin:0 14px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg2);padding:12px}
 .snap-vis-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .snap-vis-lbl svg{width:12px;height:12px}
@@ -354,7 +354,16 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
   background:var(--navy);color:#fff;cursor:pointer;transition:background .15s;touch-action:manipulation;
 }
 .tmodal-foot-close:hover{background:var(--navy2)}
-/* expand btn removed */
+.snap-expand-btn{
+  position:absolute;top:8px;right:8px;z-index:5;
+  width:30px;height:30px;border-radius:7px;
+  background:rgba(10,22,40,.6);border:1.5px solid rgba(255,255,255,.35);
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .15s,transform .15s;
+  backdrop-filter:blur(4px);touch-action:manipulation;
+}
+.snap-expand-btn:hover{background:rgba(10,22,40,.88);transform:scale(1.06)}
+.snap-expand-btn svg{width:14px;height:14px;flex-shrink:0;pointer-events:none}
 @media(max-width:640px){
   .tmodal-centerer{padding:12px 8px 36px}
   .tmodal-hero{height:180px}
@@ -367,10 +376,6 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
   .tmodal-title{font-size:16px}
   .tmodal-body{padding:14px 14px 20px}
 }
-
-.snap-expand-btn{position:absolute;top:8px;right:8px;z-index:5;width:30px;height:30px;border-radius:7px;background:rgba(10,22,40,.6);border:1.5px solid rgba(255,255,255,.35);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s;backdrop-filter:blur(4px);touch-action:manipulation;}
-.snap-expand-btn:hover{background:rgba(10,22,40,.88);transform:scale(1.06)}
-.snap-expand-btn svg{width:14px;height:14px;flex-shrink:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -2732,7 +2737,6 @@ function buildGrid(data) {
 
 /* Drawer state */
 let curSection = null, curIndex = 0, curTopic = null;
-function _getSC(){ return { snap: TOPIC_SNAPS, img: TOPIC_IMAGES, sec: curSection }; }
 
 function openDrawer(section, index) {
   curSection = section; curIndex = index; curTopic = null;
@@ -2785,10 +2789,8 @@ function showTopicSnap(name, content) {
     <div class="snap">
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
-        <button class="snap-expand-btn"
-          data-topic="${name}"
-          onclick="(function(b){var n=b.getAttribute('data-topic');openTopicModal(n,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'');})(this)"
-          aria-label="Expand topic" title="Expand topic">
+        <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
+        <button class="snap-expand-btn" data-topic="${name.replace(/"/g,'&quot;')}" onclick="var n=this.getAttribute('data-topic');openTopicModal(n,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'')" aria-label="Expand full topic view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </button>
       </div>
@@ -2883,39 +2885,36 @@ buildGrid(allData);
 
   window.openTopicModal = function(topicName, badge, badgeCls){
     if(!topicName) return;
-    var sc   = _getSC();
-    var img  = sc.img[topicName] || DEFAULT_IMG;
-    var snap = sc.snap[topicName] || null;
-    var sec  = sc.sec;
-    var raw  = sec && sec.content && sec.content.topics
-               ? (sec.content.topics[topicName] || null) : null;
-    var html = raw ? md(raw)
-                   : '<p style="color:var(--text3);font-style:italic">Detailed content coming soon.</p>';
+    var img  = (window.TOPIC_IMAGES && TOPIC_IMAGES[topicName]) || DEFAULT_IMG;
+    var snap = window.TOPIC_SNAPS  && TOPIC_SNAPS[topicName];
+    var sec  = window.curSection;
+    var raw  = sec && sec.content && sec.content.topics ? (sec.content.topics[topicName]||null) : null;
+    var html = raw ? md(raw) : '<p style="color:var(--text3);font-style:italic">Detailed content coming soon.</p>';
 
     imgEl.src = img.replace('w=560&h=200','w=1200&h=500');
     imgEl.alt = topicName;
-    h1El.textContent    = topicName;
-    badgeEl.textContent = badge || '';
-    badgeEl.className   = 'tmodal-badge-pill badge ' + (badgeCls || '');
+    h1El.textContent  = topicName;
+    badgeEl.textContent = badge||'';
+    badgeEl.className   = 'tmodal-badge-pill badge '+(badgeCls||'');
 
     var parts = [];
     if(snap){
       parts.push(
-        '<div class="tmodal-visual-card">'
-        + '<div class="tmodal-vis-lbl">'
-        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>'
-        + snap.visLabel + '</div>'
-        + snap.visual   + '</div>'
-        + '<div class="tmodal-desc">' + snap.desc + '</div>'
-        + '<div class="tmodal-tkw">'
-        + '<span class="tmodal-tkw-lbl">Takeaway</span>'
-        + '<span class="tmodal-tkw-txt">' + snap.takeaway + '</span>'
-        + '</div>'
+        '<div class="tmodal-visual-card">'+
+          '<div class="tmodal-vis-lbl">'+
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>'+
+            snap.visLabel+
+          '</div>'+snap.visual+
+        '</div>'+
+        '<div class="tmodal-desc">'+snap.desc+'</div>'+
+        '<div class="tmodal-tkw">'+
+          '<span class="tmodal-tkw-lbl">Takeaway</span>'+
+          '<span class="tmodal-tkw-txt">'+snap.takeaway+'</span>'+
+        '</div>'
       );
     }
-    parts.push('<div class="tmodal-md">' + html + '</div>');
+    parts.push('<div class="tmodal-md">'+html+'</div>');
     bodyEl.innerHTML = parts.join('');
-
 
     modal.scrollTop = 0;
     centerer.scrollTop = 0;
