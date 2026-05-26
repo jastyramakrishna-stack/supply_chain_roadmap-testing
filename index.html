@@ -254,22 +254,176 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 @media(max-width:640px){.grid{grid-template-columns:1fr}.hero-h1{font-size:34px}.drawer{width:100vw}.nav-link:not(.nav-li,.act){display:none}}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 
-/* ── Image expand modal ─────────────────────────────────────── */
-.img-modal{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(10,22,40,0);pointer-events:none;transition:background .28s ease}
-.img-modal.open{background:rgba(10,22,40,.88);pointer-events:all}
-.img-modal-box{background:#fff;border-radius:12px;overflow:hidden;max-width:680px;width:calc(100vw - 32px);transform:scale(.92) translateY(12px);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .28s ease;box-shadow:0 24px 64px rgba(0,0,0,.35)}
-.img-modal.open .img-modal-box{transform:scale(1) translateY(0);opacity:1}
-.img-modal-img{width:100%;height:260px;object-fit:cover;object-position:center;display:block;filter:brightness(.9) saturate(1.05)}
-.img-modal-body{padding:14px 16px 16px}
-.img-modal-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.3}
-.img-modal-caption{font-size:12px;color:var(--text3);line-height:1.6}
-.img-modal-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;backdrop-filter:blur(4px)}
-.img-modal-close:hover{background:rgba(255,255,255,.35)}
-.img-modal-inner{position:relative}
+/* ── Full-screen topic quick-view modal ─────────────────────── */
+.tmodal{
+  position:fixed;inset:0;z-index:600;
+  display:none;align-items:flex-start;justify-content:center;
+  background:rgba(10,22,40,0);
+  pointer-events:none;
+  transition:background .3s ease;
+  overflow-y:auto;
+  padding:24px 16px 40px;
+}
+.tmodal.open{
+  display:flex;
+  background:rgba(10,22,40,.82);
+  pointer-events:all;
+  backdrop-filter:blur(4px);
+}
+.tmodal-box{
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  width:100%;
+  max-width:720px;
+  position:relative;
+  transform:translateY(32px);
+  opacity:0;
+  transition:transform .32s cubic-bezier(.22,1,.36,1), opacity .28s ease;
+  box-shadow:0 32px 80px rgba(0,0,0,.4);
+  margin:auto;
+}
+.tmodal.open .tmodal-box{
+  transform:translateY(0);
+  opacity:1;
+}
+/* Close button — always on top, fixed inside box */
+.tmodal-close{
+  position:absolute;
+  top:12px;right:12px;
+  z-index:10;
+  width:36px;height:36px;
+  border-radius:50%;
+  background:rgba(10,22,40,.65);
+  border:2px solid rgba(255,255,255,.35);
+  color:#fff;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s, transform .15s;
+  backdrop-filter:blur(6px);
+  flex-shrink:0;
+}
+.tmodal-close:hover{background:rgba(10,22,40,.92);transform:scale(1.08)}
+.tmodal-close:active{transform:scale(.96)}
+/* Hero image */
+.tmodal-img{
+  width:100%;height:240px;
+  object-fit:cover;object-position:center 38%;
+  display:block;
+  filter:brightness(.88) saturate(1.05);
+}
+/* Gradient over hero image */
+.tmodal-img-overlay{
+  position:absolute;
+  top:0;left:0;right:0;height:240px;
+  background:linear-gradient(to bottom, rgba(10,22,40,.15) 0%, rgba(10,22,40,.6) 100%);
+  pointer-events:none;
+}
+/* Title block over image */
+.tmodal-hero-text{
+  position:absolute;
+  bottom:16px;left:18px;right:60px;
+}
+.tmodal-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;border-radius:4px;
+  display:inline-block;margin-bottom:6px;
+  border-width:1.5px;border-style:solid;
+}
+.tmodal-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(16px,4vw,22px);
+  font-weight:800;color:#fff;line-height:1.15;
+  text-shadow:0 1px 4px rgba(0,0,0,.5);
+}
+/* Body */
+.tmodal-body{padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px}
+/* KPI visual card */
+.tmodal-visual{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px 14px;
+}
+.tmodal-vis-lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
+}
+/* Desc block */
+.tmodal-desc{
+  font-size:13px;color:var(--text2);line-height:1.72;
+}
+/* Takeaway */
+.tmodal-tkw{
+  display:flex;gap:8px;
+  background:#fffbeb;
+  border-left:3px solid var(--amber);
+  border-radius:0 6px 6px 0;
+  padding:9px 11px;
+}
+.tmodal-tkw-lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--amber);flex-shrink:0;margin-top:2px;
+}
+.tmodal-tkw-txt{font-size:12px;color:var(--text2);font-style:italic;line-height:1.6}
+/* Full markdown content */
+.tmodal-content h2{
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  color:var(--text);margin:0 0 5px;padding-bottom:4px;
+  border-bottom:1px solid var(--border);
+}
+.tmodal-content h2:not(:first-child){margin-top:14px}
+.tmodal-content p{margin:3px 0;font-size:12px;color:var(--text2)}
+.tmodal-content ul{list-style:none;margin:4px 0 8px;padding:0}
+.tmodal-content li{
+  position:relative;padding:3px 0 3px 12px;
+  font-size:12px;color:var(--text2);
+  border-bottom:1px solid #f1f5f9;
+}
+.tmodal-content li:last-child{border-bottom:none}
+.tmodal-content li::before{content:'›';position:absolute;left:0;color:var(--amber);font-weight:700;font-size:14px;line-height:1.3}
+.tmodal-content strong{color:var(--text);font-weight:600}
+/* Footer */
+.tmodal-footer{
+  padding:10px 20px 14px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.tmodal-footer-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:.06em}
+.tmodal-close-btn{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;
+  padding:6px 14px;border-radius:6px;
+  border:1.5px solid var(--navy);background:var(--navy);color:#fff;
+  cursor:pointer;transition:background .15s;
+}
+.tmodal-close-btn:hover{background:var(--navy2)}
 /* Expand icon on snap banner */
-.snap-expand-btn{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:6px;background:rgba(10,22,40,.55);border:1px solid rgba(255,255,255,.2);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;backdrop-filter:blur(3px);z-index:5}
-.snap-expand-btn:hover{background:rgba(10,22,40,.8)}
-.snap-expand-btn svg{width:13px;height:13px;flex-shrink:0}
+.snap-expand-btn{
+  position:absolute;top:8px;right:8px;
+  width:30px;height:30px;border-radius:7px;
+  background:rgba(10,22,40,.6);
+  border:1.5px solid rgba(255,255,255,.3);
+  color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s, transform .15s;
+  backdrop-filter:blur(4px);
+  z-index:5;
+}
+.snap-expand-btn:hover{background:rgba(10,22,40,.88);transform:scale(1.05)}
+.snap-expand-btn svg{width:14px;height:14px;flex-shrink:0}
+@media(max-width:640px){
+  .tmodal{padding:12px 8px 32px}
+  .tmodal-img{height:180px}
+  .tmodal-img-overlay{height:180px}
+  .tmodal-title{font-size:16px}
+  .tmodal-body{padding:14px 14px 20px}
+}
 </style>
 </head>
 <body>
@@ -2582,9 +2736,7 @@ function buildGrid(data) {
       <div class="sc-banner">
         <img src="${img}" alt="" loading="lazy" style="filter:brightness(.52) saturate(.8)"/>
         <div class="sc-banner-num">${String(realIdx+1).padStart(2,'0')}</div>
-        <button class="snap-expand-btn" onclick="event.stopPropagation();openImgModal('${img.replace('w=900&h=300','w=1400&h=600')}','${section.title}','${section.badge||''} · ${section.items.length} topics')" aria-label="Expand image for ${section.title}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        </button>
+
       </div>
       <div class="sc-body">
         <div class="sc-meta">
@@ -2663,8 +2815,8 @@ function showTopicSnap(name, content) {
       <div class="snap-banner">
         <img src="${img}" alt="${name}" loading="lazy"/>
         <div class="snap-banner-lbl" style="background:rgba(0,0,0,.45);padding:3px 8px;border-radius:3px;font-size:8px">${name}</div>
-        <button class="snap-expand-btn" onclick="openImgModal('${img.replace('w=560&h=200','w=1200&h=500')}','${name.replace(/'/g,'\\'+'\'')}','${snap ? snap.desc.replace(/'/g,'\\'+'\''): name}')" aria-label="Expand image for ${name}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        <button class="snap-expand-btn" onclick="openTopicModal(curSection.items[curTopic],curSection.badge,getBadgeCls(curSection.badge))" aria-label="Expand full topic view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </button>
       </div>
       ${snap ? `
@@ -2730,38 +2882,136 @@ allData = roadmapData;
 buildProgress();
 buildGrid(allData);
 
-/* ── Image expand modal JS ── */
-function openImgModal(src, title, caption) {
-  var modal = document.getElementById('imgModal');
-  document.getElementById('imgModalImg').src = src;
-  document.getElementById('imgModalTitle').textContent = title;
-  document.getElementById('imgModalCaption').textContent = caption || '';
-  modal.classList.add('open');
+/* ── Full-screen topic quick-view modal ── */
+var _tmodalLockCount = 0;
+
+function openTopicModal(topicName, sectionBadge, sectionBadgeCls) {
+  var img     = TOPIC_IMAGES[topicName] || DEFAULT_IMG;
+  var snap    = TOPIC_SNAPS[topicName];
+  var section = curSection;
+  var topicContent = section && section.content && section.content.topics
+                     ? (section.content.topics[topicName] || null) : null;
+  var mdContent = topicContent ? markdownToHtml(topicContent)
+                               : '<p style="color:var(--text3);font-style:italic">Full content coming soon.</p>';
+
+  // Set hero
+  document.getElementById('tmodalImg').src = img.replace('w=560&h=200','w=1200&h=480');
+  document.getElementById('tmodalImg').alt = topicName;
+  document.getElementById('tmodalTitle').textContent = topicName;
+
+  // Badge
+  var badgeEl = document.getElementById('tmodalBadge');
+  badgeEl.textContent = sectionBadge || '';
+  badgeEl.className = 'tmodal-badge badge ' + (sectionBadgeCls || '');
+
+  // Build body
+  var bodyParts = [];
+
+  if (snap) {
+    // KPI visual
+    bodyParts.push(
+      '<div class="tmodal-visual">' +
+        '<div class="tmodal-vis-lbl">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><path d="M3 3v18h18M7 16l4-4 4 4 4-4"/></svg>' +
+          snap.visLabel +
+        '</div>' +
+        snap.visual +
+      '</div>'
+    );
+    // Description
+    bodyParts.push(
+      '<div class="tmodal-desc">' + snap.desc + '</div>'
+    );
+    // Takeaway
+    bodyParts.push(
+      '<div class="tmodal-tkw">' +
+        '<span class="tmodal-tkw-lbl">Takeaway</span>' +
+        '<span class="tmodal-tkw-txt">' + snap.takeaway + '</span>' +
+      '</div>'
+    );
+  }
+
+  // Full markdown content
+  bodyParts.push('<div class="tmodal-content">' + mdContent + '</div>');
+
+  document.getElementById('tmodalBody').innerHTML = bodyParts.join('');
+
+  // Scroll modal to top
+  var modal = document.getElementById('topicModal');
+  modal.scrollTop = 0;
+  document.getElementById('topicModalBox').scrollTop = 0;
+
+  // Open with animation — use rAF so transition fires
+  modal.style.display = 'flex';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      modal.classList.add('open');
+    });
+  });
   document.body.style.overflow = 'hidden';
+
+  // Trap focus to close button
+  setTimeout(function() {
+    var closeBtn = document.getElementById('tmodalCloseTop');
+    if (closeBtn) closeBtn.focus();
+  }, 320);
 }
-function closeImgModal() {
-  document.getElementById('imgModal').classList.remove('open');
+
+function closeTopicModal() {
+  var modal = document.getElementById('topicModal');
+  modal.classList.remove('open');
+  // Hide after transition completes
+  setTimeout(function() {
+    modal.style.display = 'none';
+  }, 320);
   document.body.style.overflow = '';
 }
-document.getElementById('imgModalClose').addEventListener('click', closeImgModal);
-document.getElementById('imgModal').addEventListener('click', function(e) {
-  if (e.target === this) closeImgModal();
+
+// Wire close buttons
+document.getElementById('tmodalCloseTop').addEventListener('click', closeTopicModal);
+document.getElementById('tmodalCloseBottom').addEventListener('click', closeTopicModal);
+
+// Click backdrop to close (only if clicking the backdrop itself)
+document.getElementById('topicModal').addEventListener('click', function(e) {
+  if (e.target === this) closeTopicModal();
+});
+
+// ESC key closes modal
+document.addEventListener('keydown', function(ev) {
+  if (ev.key === 'Escape') {
+    var modal = document.getElementById('topicModal');
+    if (modal.classList.contains('open')) {
+      closeTopicModal();
+      ev.preventDefault();
+    }
+  }
 });
 document.addEventListener('keydown', function(e2) {
   if (e2.key === 'Escape') closeImgModal();
 });
 </script>
 
-<!-- Image expand modal -->
-<div class="img-modal" id="imgModal" role="dialog" aria-modal="true" aria-label="Expanded image view">
-  <div class="img-modal-box" id="imgModalBox">
-    <div class="img-modal-inner">
-      <img class="img-modal-img" id="imgModalImg" src="" alt=""/>
-      <button class="img-modal-close" id="imgModalClose" aria-label="Close image">✕</button>
+<!-- Full-screen topic quick-view modal -->
+<div class="tmodal" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="tmodalTitle">
+  <div class="tmodal-box" id="topicModalBox">
+    <!-- Hero image section -->
+    <div style="position:relative">
+      <img class="tmodal-img" id="tmodalImg" src="" alt=""/>
+      <div class="tmodal-img-overlay"></div>
+      <button class="tmodal-close" id="tmodalCloseTop" aria-label="Close topic view">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="tmodal-hero-text">
+        <span class="tmodal-badge badge" id="tmodalBadge"></span>
+        <div class="tmodal-title" id="tmodalTitle"></div>
+      </div>
     </div>
-    <div class="img-modal-body">
-      <div class="img-modal-title" id="imgModalTitle"></div>
-      <div class="img-modal-caption" id="imgModalCaption"></div>
+    <!-- Body -->
+    <div class="tmodal-body" id="tmodalBody"></div>
+    <!-- Footer -->
+    <div class="tmodal-footer">
+      <span class="tmodal-footer-lbl">✦ Supply Chain Roadmap</span>
+      <button class="tmodal-close-btn" id="tmodalCloseBottom">Close ✕</button>
     </div>
   </div>
 </div>
