@@ -142,7 +142,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 .backdrop.open{display:block}
 
 /* DRAWER PANEL */
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(580px,100vw);background:#fff;z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.22,1,.36,1);box-shadow:-6px 0 32px rgba(0,0,0,.14)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(580px,100vw);background:#fff;z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.22,1,.36,1);box-shadow:-6px 0 32px rgba(0,0,0,.14);overflow:visible}
 .drawer.open{transform:translateX(0)}
 
 /* Drawer banner */
@@ -182,8 +182,9 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 
 /* Topic snapshot panel */
 .snap{background:#fff;display:flex;flex-direction:column}
-.snap-banner-wrap{position:relative;height:180px;flex-shrink:0;overflow:visible;}
-.snap-banner{position:absolute;inset:0;overflow:hidden;border-radius:0;}
+.snap-banner-wrap{position:relative;height:180px;flex-shrink:0;}
+.snap-banner{position:absolute;inset:0;border-radius:0;}
+.snap-img-wrap{position:absolute;inset:0;overflow:hidden;border-radius:0;}
 .snap-banner img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(.88) saturate(1.05)}
 .snap-banner-ov{position:absolute;inset:0}
 
@@ -374,22 +375,21 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 
 .snap-expand-btn{
   position:absolute;
-  top:8px;right:8px;
-  z-index:30;
-  width:34px;height:34px;
+  top:8px;
+  right:10px;
+  z-index:9999;
+  width:36px;height:36px;
   border-radius:8px;
-  background:rgba(10,22,40,.72);
-  border:2px solid rgba(255,255,255,.55);
+  background:rgba(10,22,40,.85);
+  border:2px solid rgba(255,255,255,.70);
   color:#fff;
   cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
   transition:background .15s,transform .15s;
-  -webkit-backdrop-filter:blur(8px);
-  backdrop-filter:blur(8px);
   touch-action:manipulation;
-  box-shadow:0 2px 8px rgba(0,0,0,.35);
+  box-shadow:0 2px 12px rgba(0,0,0,.6);
 }
 .snap-expand-btn:hover{background:rgba(10,22,40,.96);transform:scale(1.1)}
 .snap-expand-btn svg{width:15px;height:15px;flex-shrink:0;pointer-events:none;display:block}
@@ -827,6 +827,11 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
     <div class="dr-pills" id="drPills"></div>
   </div>
   <div class="dr-body" id="drBody"></div>
+  <!-- Persistent expand button — outside scroll container -->
+  <button class="snap-expand-btn" id="snapExpandBtn" style="display:none"
+    aria-label="Open full view" title="Open full view">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+  </button>
   <div class="dr-footer">
     <span class="dr-footer-lbl">✦ Supply Chain Roadmap</span>
     <div style="display:flex;gap:7px">
@@ -3121,6 +3126,12 @@ function selectTopic(i) {
 
 function showTopicSnap(name, content) {
   const img = TOPIC_IMAGES[name] || DEFAULT_IMG;
+  // Show persistent expand button
+  var eb = document.getElementById('snapExpandBtn');
+  if(eb){
+    eb.style.display='flex';
+    eb.onclick=function(){openTopicModal(name,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'');};
+  }
   const snap = TOPIC_SNAPS[name];
   const body = document.getElementById('drBody');
   const mdContent = content ? markdownToHtml(content) : `<h2>${name}</h2><p>Content coming soon.</p>`;
@@ -3129,14 +3140,10 @@ function showTopicSnap(name, content) {
     <div class="snap">
       <div class="snap-banner-wrap">
         <div class="snap-banner">
-          <img src="${img}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/>
+          <div class="snap-img-wrap">
+            <img src="${img}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"/>
+          </div>
         </div>
-        <button class="snap-expand-btn"
-          data-topic="${name}"
-          onclick="(function(b){var n=b.getAttribute('data-topic');openTopicModal(n,curSection?curSection.badge:'',curSection?getBadgeCls(curSection.badge):'');})(this)"
-          aria-label="Open full view" title="Open full view">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        </button>
       </div>
       ${snap ? `
       <div style="padding:12px 14px 0">
@@ -3162,6 +3169,8 @@ function showTopicSnap(name, content) {
 
 function showOverview() {
   curTopic = null;
+  var eb = document.getElementById('snapExpandBtn');
+  if(eb) eb.style.display='none';
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
   document.getElementById('drBackBtn').style.display = 'none';
   const overview = curSection.content?.overview || `## ${curSection.title}\n\nThis section covers key supply chain concepts.\n\n## Topics\n${curSection.items.map(i=>`- ${i}`).join('\n')}`;
@@ -3170,6 +3179,8 @@ function showOverview() {
 }
 
 function closeDrawer() {
+  var eb = document.getElementById('snapExpandBtn');
+  if(eb) eb.style.display='none';
   document.getElementById('backdrop').classList.remove('open');
   document.getElementById('drawer').classList.remove('open');
   document.body.style.overflow = '';
