@@ -37,25 +37,17 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 .nav-li:hover{background:#004182!important}
 
 /* HERO */
-.hero{position:relative;min-height:500px;display:flex;align-items:flex-end;overflow:hidden}
+.hero{position:relative;min-height:490px;display:flex;align-items:stretch;overflow:hidden}
 .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
-.hero-ov{position:absolute;inset:0;background:linear-gradient(170deg,rgba(10,22,40,.62) 0%,rgba(10,22,40,.35) 35%,rgba(10,22,40,.82) 100%)}
-.hero-content{
-  position:relative;z-index:2;max-width:1100px;margin:0 auto;
-  padding:48px 24px 36px;width:100%;
-  display:flex;align-items:flex-end;justify-content:space-between;
-  min-height:calc(100% - 48px);flex-wrap:wrap;gap:12px;
-}
-.hero-left{display:flex;flex-direction:column;gap:0;max-width:520px}
-.hero-br{
-  display:flex;flex-direction:column;align-items:flex-end;gap:10px;
-  padding-bottom:2px;
-}
-.hero-author{display:flex;align-items:center;gap:10px;margin-bottom:0}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,40,.68) 0%,rgba(10,22,40,.55) 14%,rgba(10,22,40,.12) 28%,rgba(10,22,40,.0) 55%,rgba(10,22,40,.55) 100%)}
+
+
+
+
 .hero-eye{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f59e0b;margin-bottom:10px}
-.hero-h1{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,64px);font-weight:800;color:#fff;line-height:1.0;letter-spacing:-.02em}
-.hero-rule{width:72px;height:3px;background:#c2620a;margin:14px 0}
-.hero-sub{font-size:15px;color:rgba(255,255,255,.62);font-style:italic;margin-bottom:18px}
+
+
+
 
 .hero-av{width:38px;height:38px;border-radius:50%;background:var(--navy2);border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;color:#fff;flex-shrink:0}
 .hero-ainfo{display:flex;flex-direction:column;gap:0}
@@ -63,8 +55,8 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 .hero-aname{font-size:14px;font-weight:600;color:rgba(255,255,255,.9)}
 .hero-li{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#0a66c2;border-radius:5px;text-decoration:none;margin-left:6px}
 .hero-li:hover{background:#004182}
-.hero-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.hero-stat{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);padding:3px 9px;border-radius:3px;letter-spacing:.05em}
+
+
 
 /* BREADCRUMB */
 .bc{background:#fff;border-bottom:1px solid var(--border)}
@@ -262,7 +254,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 .footer-vc-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.38)}
 
 /* RESPONSIVE */
-@media(max-width:640px){.grid{grid-template-columns:1fr}.hero-h1{font-size:34px}.drawer{width:100vw}.nav-link:not(.nav-li,.act){display:none}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.drawer{width:100vw}.nav-link:not(.nav-li,.act){display:none}}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 
 /* ── Full-screen topic quick-view modal ─────────────────────── */
@@ -425,6 +417,60 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 .grid .sc:nth-child(10) .sc-item::before{color:#1d4ed8;}
 .grid .sc:nth-child(10) .sc-cta{color:#1d4ed8;}
 .grid .sc:hover{filter:brightness(.97)}
+
+/* ── HERO OVERLAY ── */
+.hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,40,.80) 0%,rgba(10,22,40,.65) 16%,rgba(10,22,40,.05) 34%,rgba(10,22,40,.0) 60%,rgba(10,22,40,.60) 100%)}
+
+/* ── HERO CONTENT wrapper ── */
+.hero-content{position:absolute;inset:0;z-index:2;pointer-events:none}
+
+/* ── TITLE STRIP — top of hero, full width dark band ── */
+.hero-title-strip{
+  position:absolute;top:0;left:0;right:0;
+  padding:20px 32px 20px;
+  background:linear-gradient(180deg,rgba(10,22,40,.75) 0%,rgba(10,22,40,0) 100%);
+  pointer-events:all;
+}
+.hero-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(22px,3.6vw,40px);
+  font-weight:800;color:#fff;
+  line-height:1.1;letter-spacing:-.02em;
+}
+.hero-rule{width:52px;height:3px;background:#c2620a;margin:8px 0 7px}
+.hero-sub{font-size:12.5px;color:rgba(255,255,255,.70);font-style:italic}
+
+/* ── STATS PILLS — bottom-left ── */
+.hero-stats-strip{
+  position:absolute;bottom:20px;left:28px;
+  display:flex;gap:7px;flex-wrap:wrap;
+  pointer-events:all;
+}
+.hero-stat{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,.60);
+  border:1px solid rgba(255,255,255,.22);
+  padding:3px 9px;border-radius:3px;letter-spacing:.05em;
+  background:rgba(10,22,40,.40);
+}
+
+/* ── AUTHOR + LINKEDIN — bottom-right ── */
+.hero-br{
+  position:absolute;bottom:18px;right:24px;
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+  pointer-events:all;
+  background:rgba(10,22,40,.58);
+  padding:10px 14px 10px 16px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(8px);
+}
+.hero-author{display:flex;align-items:center;gap:9px}
+.hero-av{width:38px;height:38px;border-radius:50%;background:var(--navy2);border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;color:#fff;flex-shrink:0}
+.hero-ainfo{display:flex;flex-direction:column;gap:0}
+.hero-crafted{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.50)}
+.hero-aname{font-size:13px;font-weight:600;color:rgba(255,255,255,.92)}
+.hero-li{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#0a66c2;border-radius:5px;text-decoration:none}
+.hero-li:hover{background:#004182}
 </style>
 </head>
 <body>
@@ -663,19 +709,22 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 </div>
   <div class="hero-ov"></div>
   <div class="hero-content">
-    <!-- TOP-LEFT: title block -->
-    <div class="hero-left">
-      <div class="hero-eye">Learning Path · 2025</div>
-      <h1 class="hero-h1">Supply Chain<br>Roadmap</h1>
+
+    <!-- TITLE STRIP — pinned to very top -->
+    <div class="hero-title-strip">
+      <h1 class="hero-h1">Supply Chain Roadmap</h1>
       <div class="hero-rule"></div>
       <p class="hero-sub">A structured path to master modern supply chain management</p>
-      <div class="hero-stats">
-        <span class="hero-stat">10 sections</span>
-        <span class="hero-stat">85 topics</span>
-        <span class="hero-stat">Beginner → Expert</span>
-      </div>
     </div>
-    <!-- BOTTOM-RIGHT: author + LinkedIn -->
+
+    <!-- BOTTOM-LEFT — stats pills -->
+    <div class="hero-stats-strip">
+      <span class="hero-stat">10 sections</span>
+      <span class="hero-stat">85 topics</span>
+      <span class="hero-stat">Beginner &#x2192; Expert</span>
+    </div>
+
+    <!-- BOTTOM-RIGHT — author + LinkedIn (unchanged position) -->
     <div class="hero-br">
       <div class="hero-author">
         <div class="hero-av" aria-hidden="true">JR</div>
@@ -689,6 +738,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
         Connect on LinkedIn
       </a>
     </div>
+
   </div>
 </section>
 
