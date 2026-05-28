@@ -192,7 +192,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 /* Flow diagram */
 .flow{display:flex;flex-direction:column;gap:4px}
 .flow-row{display:flex;align-items:center;gap:6px;padding:5px 8px;background:#fff;border:1px solid var(--border);border-radius:5px}
-.flow-n{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;width:18px;flex-shrink:0;text-align:center}
+.flow-n{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;min-width:36px;flex-shrink:0;text-align:center}
 .flow-t{font-size:11px;color:var(--text2);flex:1}
 .flow-t b{color:var(--text);font-weight:600}
 /* Stat grid */
@@ -357,7 +357,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
   background:var(--navy);color:#fff;cursor:pointer;transition:background .15s;touch-action:manipulation;
 }
 .tmodal-foot-close:hover{background:var(--navy2)}
-/* expand btn removed */
+
 @media(max-width:640px){
   .tmodal-centerer{padding:12px 8px 36px}
   .tmodal-hero{height:180px}
@@ -371,7 +371,9 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
   .tmodal-body{padding:14px 14px 20px}
 }
 
-.snap-expand-btn{position:absolute;top:8px;right:8px;z-index:5;width:30px;height:30px;border-radius:7px;background:rgba(10,22,40,.6);border:1.5px solid rgba(255,255,255,.35);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s;backdrop-filter:blur(4px);touch-action:manipulation;}
+.snap-expand-btn{position:absolute;top:8px;right:8px;z-index:10;width:30px;height:30px;border-radius:7px;background:rgba(10,22,40,.65);border:1.5px solid rgba(255,255,255,.4);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);touch-action:manipulation;}
+.snap-expand-btn:hover{background:rgba(10,22,40,.92);transform:scale(1.08)}
+.snap-expand-btn svg{width:13px;height:13px;pointer-events:none}
 .snap-expand-btn:hover{background:rgba(10,22,40,.88);transform:scale(1.06)}
 .snap-expand-btn svg{width:14px;height:14px;flex-shrink:0;pointer-events:none}
 
